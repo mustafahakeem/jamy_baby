@@ -1,0 +1,243 @@
+<div>
+    <div class="panel-heading">
+        <b> Customer Kyc Detail: </b>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class=" col-md-9 col-lg-9 ">
+                <table class="table table-user-information">
+                    <tbody>
+                        <tr>
+                            <td>Kyc Detail Guid:</td>
+                            <td>{{kycDetail.KycDetailGuid}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.FirstName && kycDetail.FirstName.length>0">
+                            <td>First Name:</td>
+                            <td>{{kycDetail.FirstName}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Surname && kycDetail.Surname.length>0">
+                            <td>Sur Name:</td>
+                            <td>{{kycDetail.Surname}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.OtherName && kycDetail.OtherName.length>0">
+                            <td>Other Name:</td>
+                            <td>{{kycDetail.OtherName}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.LastName && kycDetail.LastName.length>0">
+                            <td>Last Name:</td>
+                            <td>{{kycDetail.LastName}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.ForeNames && kycDetail.ForeNames.length>0">
+                            <td>Fore Names:</td>
+                            <td>{{kycDetail.ForeNames}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.MiddleName && kycDetail.MiddleName.length>0">
+                            <td>Middle Name:</td>
+                            <td>{{kycDetail.MiddleName}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Gender && kycDetail.Gender.length>0">
+                            <td>Gender:</td>
+                            <td>{{kycDetail.Gender}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Occupation && kycDetail.Occupation.length>0">
+                            <td>Occupation:</td>
+                            <td>{{kycDetail.Occupation}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.DateOfBirth">
+                            <td>Date of Birth:</td>
+                            <td>{{kycDetail.DateOfBirth | date : 'mediumDate'}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.IdNumber && kycDetail.IdNumber.length>0">
+                            <td>Id Number:</td>
+                            <td>{{kycDetail.IdNumber}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.SerialNumber && kycDetail.SerialNumber.length>0">
+                            <td>Serial Number:</td>
+                            <td>{{kycDetail.SerialNumber}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Citizenship && kycDetail.Citizenship.length>0">
+                            <td>CitizenShip:</td>
+                            <td>{{kycDetail.Citizenship}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.FatherNames && kycDetail.FatherNames.length>0">
+                            <td>Father Names:</td>
+                            <td>{{kycDetail.FatherNames}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.MotherNames && kycDetail.MotherNames.length>0">
+                            <td>Mother Names:</td>
+                            <td>{{kycDetail.MotherNames}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Family && kycDetail.Family.length>0">
+                            <td>Family:</td>
+                            <td>{{kycDetail.Family}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Clan && kycDetail.Clan.length>0">
+                            <td>Clan:</td>
+                            <td>{{kycDetail.Clan}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.EthnicGroup && kycDetail.EthnicGroup.length>0">
+                            <td>Ethnic Group:</td>
+                            <td>{{kycDetail.EthnicGroup}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.PassportNumber && kycDetail.PassportNumber.length>0">
+                            <td>Passport Number:</td>
+                            <td>{{kycDetail.PassportNumber}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.PlaceOfBirth && kycDetail.PlaceOfBirth.length>0">
+                            <td>Place of Birth:</td>
+                            <td>{{kycDetail.PlaceOfBirth}}</td>
+                        </tr>
+                        <!--<tr *ngIf="kycDetail.PlaceOfDeath && kycDetail.PlaceOfDeath.length>0">-->
+                        <!--<td>Place of Death:</td>-->
+                        <!--<td>{{kycDetail.PlaceOfDeath}}</td>-->
+                        <!--</tr>-->
+                        <tr *ngIf="kycDetail.PlaceOfLive && kycDetail.PlaceOfLive.length>0">
+                            <td>Place of Live:</td>
+                            <td>{{kycDetail.PlaceOfLive}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Nationality && kycDetail.Nationality.length>0">
+                            <td>Nationality:</td>
+                            <td>{{kycDetail.Nationality}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Status && kycDetail.Status.length>0">
+                            <td>Status:</td>
+                            <td>{{kycDetail.Status}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.RegOffice && kycDetail.RegOffice.length>0">
+                            <td>Reg Office:</td>
+                            <td>{{kycDetail.RegOffice}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.ApplicationNumber && kycDetail.ApplicationNumber.length>0">
+                            <td>Application Number:</td>
+                            <td>{{kycDetail.ApplicationNumber}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.BiometricResult && kycDetail.BiometricResult.length>0">
+                            <td>Biometric Result:</td>
+                            <td>{{kycDetail.BiometricResult}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Cell && kycDetail.Cell.length>0">
+                            <td>Cell:</td>
+                            <td>{{kycDetail.Cell}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.CivilStatus && kycDetail.CivilStatus.length>0">
+                            <td>Civil Status:</td>
+                            <td>{{kycDetail.CivilStatus}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.IsVerified && kycDetail.IsVerified.length>0">
+                            <td>Is Verified?:</td>
+                            <td>{{kycDetail.IsVerified}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.IssueNumber && kycDetail.IssueNumber.length>0">
+                            <td>Issue Number:</td>
+                            <td>{{kycDetail.IssueNumber}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Pin && kycDetail.Pin.length>0">
+                            <td>Pin:</td>
+                            <td>{{kycDetail.Pin}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.PlaceOfIssue && kycDetail.PlaceOfIssue.length>0">
+                            <td>Place Of Issue:</td>
+                            <td>{{kycDetail.PlaceOfIssue}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.PostalAddress && kycDetail.PostalAddress.length>0">
+                            <td>Postal Address:</td>
+                            <td>{{kycDetail.PostalAddress}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Postcode && kycDetail.Postcode.length>0">
+                            <td>Postcode:</td>
+                            <td>{{kycDetail.Postcode}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Province && kycDetail.Province.length>0">
+                            <td>Province:</td>
+                            <td>{{kycDetail.Province}}</td>
+                        </tr>
+                        <tr
+                            *ngIf="kycDetail.ResidentialAddressDistrict && kycDetail.ResidentialAddressDistrict.length>0">
+                            <td>Residential Address District:</td>
+                            <td>{{kycDetail.ResidentialAddressDistrict}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.ResidentialAddressRegion && kycDetail.ResidentialAddressRegion.length>0">
+                            <td>Residential Address Region:</td>
+                            <td>{{kycDetail.ResidentialAddressRegion}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.ResidentialAddressStreet && kycDetail.ResidentialAddressStreet.length>0">
+                            <td>Residential Address Street:</td>
+                            <td>{{kycDetail.ResidentialAddressStreet}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.ResidentialAddressVillage && kycDetail.ResidentialAddressVillage.length>0">
+                            <td>Residential Address Village:</td>
+                            <td>{{kycDetail.ResidentialAddressVillage}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.ResidentialAddressWard && kycDetail.ResidentialAddressWard.length>0">
+                            <td>Residential Address Ward:</td>
+                            <td>{{kycDetail.ResidentialAddressWard}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Sector && kycDetail.Sector.length>0">
+                            <td>Sector:</td>
+                            <td>{{kycDetail.Sector}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Village && kycDetail.Village.length>0">
+                            <td>Village:</td>
+                            <td>{{kycDetail.Village}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.VillageId && kycDetail.VillageId.length>0">
+                            <td>VillageId:</td>
+                            <td>{{kycDetail.VillageId}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.IdType && kycDetail.IdType.length>0">
+                            <td>Id Type:</td>
+                            <td>{{kycDetail.IdType}}</td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Photo && kycDetail.Photo.length>0">
+                            <td>Photo:</td>
+                            <td>
+                                <img src={{kycDetail.Photo+kycDetail.PhotoSas}} alt="_blank"
+                                    style="height: auto; width: auto; max-width: 500px; max-height: 500px; cursor: pointer;"
+                                    data-toggle="modal" data-target="#kycDetailPhoto">
+                            </td>
+                        </tr>
+                        <tr *ngIf="kycDetail.PhotoFromPassport && kycDetail.PhotoFromPassport.length>0">
+                            <td>Photo from Passport:</td>
+                            <td>
+                                <img src={{kycDetail.PhotoFromPassport+kycDetail.PhotoFromPassportSas}} alt="_blank"
+                                    style="height: auto; width: auto; max-width: 500px; max-height: 500px; cursor: pointer;"
+                                    data-toggle="modal" data-target="#kycDetailPhotoFromPassport">
+                            </td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Signature && kycDetail.Signature.length>0">
+                            <td>Signature:</td>
+                            <td>
+                                <img src={{kycDetail.Signature+kycDetail.SignatureSas}} alt="_blank"
+                                    style="height: auto; width: auto; max-width: 500px; max-height: 500px; cursor: pointer;"
+                                    data-toggle="modal" data-target="#kycDetailSignature">
+                            </td>
+                        </tr>
+                        <tr *ngIf="kycDetail.Fingerprint && kycDetail.Fingerprint.length>0">
+                            <td>Finger Print:</td>
+                            <td>
+                                <img src={{kycDetail.Fingerprint+kycDetail.FingerprintSas}} alt="_blank"
+                                    style="height: auto; width: auto; max-width: 500px; max-height: 500px; cursor: pointer;"
+                                    data-toggle="modal" data-target="#kycDetailFingerprint">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Create Date:</td>
+                            <td>{{kycDetail.CreateDate | date:"medium"}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-image-modal modalId="kycDetailPhoto" imageUrl="{{kycDetail.Photo+kycDetail.PhotoSas}}" header="Photo">
+</app-image-modal>
+
+<app-image-modal modalId="kycDetailSignature" imageUrl="{{kycDetail.Signature+kycDetail.SignatureSas}}" header="Signature"></app-image-modal>
+
+<app-image-modal modalId="kycDetailPhotoFromPassport" imageUrl="{{kycDetail.PhotoFromPassport+kycDetail.PhotoFromPassportSas}}" header="Photo From Passport">
+</app-image-modal>
+
+<app-image-modal modalId="kycDetailFingerprint" imageUrl="{{kycDetail.Fingerprint+kycDetail.FingerprintSas}}" header="Fingerprint">
+</app-image-modal>

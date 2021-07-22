@@ -1,0 +1,44 @@
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Account List</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12 col-lg-12 col-sm-12" align="center">
+                <div [ngBusy]="busy"></div>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th *ngFor='let column of columns'>{{column.label}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor='let account of customerAccounts'>
+                            <td>{{account.AccountId}}</td>
+                            <td>{{account.AccountType}}</td>
+                            <td>{{account.Currency}}</td>
+                            <td>{{account.SubAccountAddress}}</td>
+                            <td>{{account.LocalBalance}}</td>
+                            <td>
+                                <div *ngIf="account.AnxBalance >= 0">{{account.AnxBalance}}</div>
+                                <div *ngIf="account.AnxBalance == null">Not loaded</div>
+                            </td>
+                            <td *ngIf="showTransactionList">
+                                <button class="btn btn-primary" (click)="showTransaction(account)">Show
+                                    Transaction
+                                </button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary" (click)="getAnxBalance()">Update balances from ANX</button>
+            <br>
+            <br>
+            <transaction-list #transactionListComponenet *ngIf="customerAccount.AccountId"
+                [customerAccount]="customerAccount"></transaction-list>
+    </div>
+</div>

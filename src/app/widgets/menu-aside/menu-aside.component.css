@@ -1,0 +1,65 @@
+.active-inner {
+    background-color:#1c4a63;
+}
+
+
+.sidebar-menu li.active > .treeview-menu-custom {
+  display: block;
+}
+.sidebar-menu .treeview-menu-custom {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  padding-left: 5px;
+}
+.sidebar-menu .treeview-menu-custom .treeview-menu-custom {
+  padding-left: 20px;
+}
+.sidebar-menu .treeview-menu-custom > li {
+  margin: 0;
+}
+.sidebar-menu .treeview-menu-custom > li > a {
+  padding: 5px 5px 5px 15px;
+  display: block;
+  font-size: 14px;
+}
+.sidebar-menu .treeview-menu-custom > li > a > .fa,
+.sidebar-menu .treeview-menu-custom > li > a > .glyphicon,
+.sidebar-menu .treeview-menu-custom > li > a > .ion {
+  width: 20px;
+}
+.sidebar-menu .treeview-menu-custom > li > a > .pull-right-container > .fa-angle-left,
+.sidebar-menu .treeview-menu-custom > li > a > .pull-right-container > .fa-angle-down,
+.sidebar-menu .treeview-menu-custom > li > a > .fa-angle-left,
+.sidebar-menu .treeview-menu-custom > li > a > .fa-angle-down {
+  width: auto;
+}
+
+.sidebar-mini.sidebar-collapse .sidebar-menu > li > .treeview-menu-custom {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-bottom-right-radius: 4px;
+}
+
+.sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu-custom {
+  display: block !important;
+  position: absolute;
+  width: 180px;
+  left: 50px;
+}
+
+.sidebar-mini.sidebar-collapse .sidebar-menu > li:hover > .treeview-menu-custom {
+  top: 44px;
+  margin-left: 0;
+}
+
+.sidebar-mini.sidebar-collapse .sidebar-menu > li > .treeview-menu-custom
+{
+  display: none !important;
+  -webkit-transform: translateZ(0);
+}
+
+ul>li>a:hover {
+  color: #3c8dbc
+}

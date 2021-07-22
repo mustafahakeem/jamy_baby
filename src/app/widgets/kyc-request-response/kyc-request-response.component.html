@@ -1,0 +1,35 @@
+<div class="kyc-request-body">
+  <h5>KYC request details</h5>
+  <button class="btn btn-primary" (click)="toggleTableVisiblity()">
+    <span *ngIf="!showTable">Show all KYC request details</span>
+    <span *ngIf="showTable">Hide all KYC request details</span>
+  </button>
+  <br />
+  <br />
+  <div class="col-md-12">
+    <div [ngBusy]="busy" class="busy"></div>
+    <div class="row">
+      <div class="panel panel-info" *ngIf="showTable">
+        <table class="table table-user-information table-bordered" *ngIf="!!kycRequestResponseViews?.length; else KycRRMessage">
+          <thead>
+            <tr>
+              <th *ngFor="let config of tableConfig">{{ config.label }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let requestResponse of kycRequestResponseViews">
+              <td>{{ requestResponse.CreateDate | date: "medium" }}</td>
+              <td>{{ requestResponse.KycProcessingStatus }}</td>
+              <td>{{ requestResponse.JamesProcessingStatus }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #KycRRMessage>
+          <span style="padding: 10px;" *ngIf="!!kycRequestResponseViews">
+            There are no records for this customer.
+          </span>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

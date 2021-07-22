@@ -1,0 +1,74 @@
+<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-12">
+    <div [ngBusy]="busy"></div>
+    <div class="col-12">
+            <h1 class="text-center">Spenn Business - Add User</h1>
+        <div class="business-add-user-wrapper col-md-8 col-12 col-md-offset-2">        
+            <form (ngSubmit)="onSubmit()" action="">
+                <div class="form-group row">
+                    <label for="businessCustomerGuid" class="col-md-4 col-form-label">Business Guid</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="businessUser.BusinessCustomerGuid" id="businessCustomerGuid" name="businessCustomerGuid" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="businessUserEmail" class="col-md-4 col-form-label">Email</label>
+                    <div class="col-md-8">
+                        <input type="Email" class="form-control" [(ngModel)]="businessUser.Email" id="businessUserEmail" name="email" required="required">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="countryId" class="col-md-4 col-form-label">Country</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="countryId" [(ngModel)]="businessUser.CountryId" #countryId="ngModel" name="countryId" required="required">
+                            <option [selected]="true" value="null">-- Select --</option>
+                            <option *ngFor="let country of countries" [value]="country.CountryId">{{country.Name}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="phoneNumber" class="col-md-4 col-form-label">2FA Phone Number</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="businessUser.PhoneNumber" id="phoneNumber" name="phoneNumber" required="required">
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="password" class="col-md-4 col-form-label">Password</label>
+                    <div class="col-md-8">
+                        <input type="password" class="form-control" [(ngModel)]="businessUser.Password" id="password" name="password" required="required">
+                    </div>                
+                </div>
+                
+
+                <div class="form-group row">
+                    <label for="confirmPassword" class="col-md-4 col-form-label">Confirm Password</label>
+                    <div class="col-md-8">
+                        <input type="password" class="form-control" [(ngModel)]="businessUser.ConfirmPassword" id="confirmPassword" name="confirmPassword" required="required">
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-md-4 col-form-label">Permissions</label>
+                    <div class="col-md-8">
+                        <div *ngFor="let permission of businessUser.PermissionGroups; let i = index;trackBy:trackByIdx">
+                            <input type="checkbox" class="form-check-input" [(ngModel)]="permission.Checked" 
+                                id="permissionGroup-{{i}}" name="permissionGroup-{{i}}" />
+                            <label for="permissionGroup-{{i}}" class="col-form-label text-normal">{{permission.GroupName}}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row" style="margin-top:3em">
+                    <div class="col-md-8 col-md-offset-2">
+                        <button type="submit" class="form-control btn btn-primary">Add User</button>
+                    </div>                
+                </div>
+                    
+            </form>
+        </div>
+
+    </div>
+</div>

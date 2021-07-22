@@ -1,0 +1,259 @@
+<div [ngBusy]="busy"></div>
+<div class="row">
+  <div [ngBusy]="busy"></div>
+  <div
+    class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad">
+
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{customerDetail.Name}}'s Profile</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-3 col-lg-3 " align="center"><img alt="User Pic" src="{{customerDetail.Picture}}"
+              class="img-circle img-responsive"></div>
+
+          <div class=" col-md-9 col-lg-9 ">
+
+            <div class="panel-group" id="accordion">
+              <div class="panel panel-default" id="panel1">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapseUserDetail"
+                      (click)="changeGlyphicon('glyphiconCustomer')">
+                      <span class="pointer-cursor">Customer Detail</span> <span
+                        class="pointer-cursor glyphicon {{glyphiconHolder['glyphiconCustomer']}}"
+                        style="float:right"></span>
+                    </a>
+                  </h4>
+                </div>
+                <div id="collapseUserDetail" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <table class="table table-user-information">
+                      <tbody>
+                        <tr>
+                          <td>CustomerGUID:</td>
+                          <td>{{customerDetail.CustomerGuid}}</td>
+                        </tr>
+                        <tr>
+                          <td>Name:</td>
+                          <td>{{customerDetail.Name}}</td>
+                        </tr>
+                        <tr>
+                          <td>Phone:</td>
+                          <td>{{customerDetail.Phone}}</td>
+                        </tr>
+                        <tr>
+                          <td>Country:</td>
+                          <td>{{customerDetail.CountryName}}</td>
+                        </tr>
+                        <tr>
+                          <td>Currency:</td>
+                          <td>{{customerDetail.CurrencyIsoCode}}</td>
+                        </tr>
+                        <tr>
+                          <td>Bank Name:</td>
+                          <td>{{customerDetail.BankName}}</td>
+                        </tr>
+                        <tr>
+                          <td>Email:</td>
+                          <td>{{customerDetail.Email}}</td>
+                        </tr>
+                        <tr>
+                          <td>Reward Code:</td>
+                          <td>{{customerDetail.RewardCode}}</td>
+                        </tr>
+                        <tr>
+                          <td>Referrer Reward Code:</td>
+                          <td>
+                            <!-- <a *ngIf="customerDetail.ReferrerRewardCode" (click)="goToCustomerByRewardCode(customerDetail.ReferrerRewardCode)"
+                                href="javascript:void(0)">{{customerDetail.ReferrerRewardCode}}</a> -->
+                            {{customerDetail.ReferrerRewardCode}}
+                            <span
+                              *ngIf="customerDetail.ReferrerStatus == 'Locked' || customerDetail.ReferrerStatus == 'Suspended'"
+                              style="font-weight: bold; margin-left: 5px;">(BLOCKED)</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Phone verified:</td>
+                          <td>{{customerDetail.IsVerified}} </td>
+                        </tr>
+                        <tr>
+                          <td>Kyc Status:</td>
+                          <td>{{customerDetail.KycStatus}} </td>
+                        </tr>
+                        <tr>
+                          <td>Status:</td>
+                          <td>
+                            <!-- <span class="btn btn-success" *ngIf="customerDetail.CustomerStatus==1">
+                                {{customerDetail.Status}}
+                                <i class="glyphicon glyphicon-ok-circle"></i>
+                              </span>
+                              <span class="btn btn-danger" *ngIf="customerDetail.CustomerStatus==0">
+                                {{customerDetail.Status}}
+                                <i class="glyphicon glyphicon-ban-circle"></i>
+                              </span> -->
+                            {{customerDetail.Status}}
+                          </td>
+                        </tr>
+                        <tr *ngIf="customerDetail.KycDeadline">
+                          <td>Kyc Deadline:</td>
+                          <td>{{customerDetail.KycDeadline | date: 'medium'}}</td>
+                        </tr>
+                        <tr>
+                          <td>Review Kyc Status:</td>
+                          <td>{{customerDetail.ReviewKycStatus }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default" id="panel2" *ngIf="!isReloaded">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#smsHistory"
+                      (click)="changeGlyphicon('glyphiconSms'); needShowSms=true">
+                      <span class="pointer-cursor">SMS History</span> <span
+                        class="pointer-cursor glyphicon {{glyphiconHolder['glyphiconSms']}}" style="float:right"></span>
+                    </a>
+                  </h4>
+                </div>
+                <div id="smsHistory" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <sms-list #smsListComponenet *ngIf="needShowSms" [customerGuid]="customerGuid"></sms-list>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default" id="auditHistoryPanel" *ngIf="!isReloaded">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#auditHistory" aria-expanded="true"
+                      (click)="changeGlyphicon('glyphiconAudit');">
+                      <span class="pointer-cursor">Audit History</span> <span
+                        class="pointer-cursor glyphicon {{glyphiconHolder['glyphiconAudit']}}"
+                        style="float:right"></span>
+                    </a>
+                  </h4>
+                </div>
+                <div id="auditHistory" class="collapse.show in">
+                  <div class="panel-body">
+                    <app-audit-history *ngIf="needShowAuditHistory" #auditHistory [customerGuid]="customerGuid">
+                    </app-audit-history>
+                  </div>
+                </div>
+              </div>
+              <!-- account list  -->
+              <div class="panel panel-default" id="accountListPanel" *ngIf="!isReloaded">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#accountList"
+                      (click)="changeGlyphicon('glyphiconAccountList'); needShowAccountList=true;">
+                      <span class="pointer-cursor">Account List</span> <span
+                        class="pointer-cursor glyphicon {{glyphiconHolder['glyphiconAccountList']}}"
+                        style="float:right"></span>
+                    </a>
+                  </h4>
+                </div>
+                <div id="accountList" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <app-customer-account-list *ngIf="needShowAccountList" #accountList [customerGuid]="customerGuid"
+                      [showTransactionList]="false">
+                    </app-customer-account-list>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-group" id="accordion" *ngIf="kycDetail!=null">
+              <div class="panel panel-default" id="panel1">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-target="#collapseKycDetail"
+                      (click)="changeGlyphicon('glyphiconKyc')">
+                      <span class="pointer-cursor">Kyc Detail</span> <span
+                        class="pointer-cursor glyphicon {{glyphiconHolder['glyphiconKyc']}}" style="float:right"></span>
+                    </a>
+                  </h4>
+
+                </div>
+                <div id="collapseKycDetail" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <app-customer-kyc-info *ngIf="kycDetail!=null" [kycDetail]="kycDetail"></app-customer-kyc-info>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="kycRequest && showKyc">
+              <div class="panel-heading">
+                <h3> {{customerDetail.Name}}'s Kyc Request Info: </h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-9 col-lg-9">
+                    <app-kyc-request [kycRequest]="kycRequest"></app-kyc-request>
+                    <app-kyc-escalate [kycRequest]="kycRequest" [customerName]="customerDetail.Name" [customerGuid]="customerDetail.CustomerGuid"></app-kyc-escalate>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="panel-body" *ngIf="sanctionedItemCount>0">
+                <div class="row col-md-12 col-lg-12 col-sm-6 col-xs-3">
+                  <h3 style="color:coral" *ngIf="KycTriedCount">Sanction List Hits : {{sanctionedItemCount}}</h3>
+                </div>
+              </div>
+
+              <div class="panel-body">
+                <div class="row col-md-12 col-lg-12 col-sm-6 col-xs-3">
+                  <h3 style="color:coral" *ngIf="KycTriedCount">Kyc Tried : {{KycTriedCount}}</h3>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          <div style="text-align: center">
+            <!-- <button class="btn btn-default pagination-nextpage" (click)="prevCustomer()">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Prev Customer </button> -->
+            <div class="row">
+              <div class="col-md-7 text-right">
+                <p *ngIf="customerDetail.KycStatus ==='Verified' || customerDetail.KycStatus == 'PendingProcessing'">
+                  <!-- <button class="btn btn-warning" (click)="jamesReject()">Reject</button> -->
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+                    Reject
+                  </button>
+                  <button class="btn btn-success"
+                    (click)="jamesVerify(customerDetail.CustomerGuid,true)">Approve</button>
+                  <button class="btn btn-danger" data-toggle="modal" data-target="#EscalateKycModal">Escalate</button>
+                </p>
+              </div>
+              <div class="col-md-5 text-right">
+                <label class="checkbox-inline">
+                  <input type="checkbox" [(ngModel)]="autoNext" (change)="autoNextSettingChanged()">
+                  Automatically Next
+                </label>
+                <button *ngIf="!isLastCustomer" class="btn btn-default pagination-nextpage"
+                  (click)="nextCustomer()">Next
+                  Customer
+                  <i class="glyphicon glyphicon-chevron-right"></i></button>
+                <button *ngIf="isLastCustomer" class="btn btn-default pagination-nextpage" (click)="nextCustomer()">
+                  Go To List Page
+                  <i class="glyphicon glyphicon-list"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <app-customer-account-list [customerGuid]="customerGuid"></app-customer-account-list> -->
+    </div>
+  </div>
+  <app-rejection-reason-modal [customerGuid]="customerGuid" [callBackFn]="confirmReject.bind(this)">
+  </app-rejection-reason-modal>

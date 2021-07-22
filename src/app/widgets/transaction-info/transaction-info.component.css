@@ -1,0 +1,13 @@
+.word-break{
+    word-break: break-word;
+}
+.text-white{
+    color: white !important;
+}
+.close{
+    opacity: 1 !important;
+    color: white !important;
+}
+.mb-0{
+    margin-bottom: 0;
+}

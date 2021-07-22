@@ -1,0 +1,12 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+      <h3 class="panel-title">Loan List</h3>
+  </div>
+  <div class="col-md-12">
+    <div id="customerLoans" class="row">
+      <data-grid #customerLoanGrid [dataGridConfig]="dataGridConfig"></data-grid>
+    </div>
+  </div>
+</div>
+
+<app-customer-loan-details-modal [modalId]="modalId" [command]="command"></app-customer-loan-details-modal>

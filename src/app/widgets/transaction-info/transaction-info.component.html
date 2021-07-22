@@ -1,0 +1,229 @@
+<dialog id="{{modalId}}" class="modal-dialog modal-md" style="border: 1px solid rgba(0, 0, 0, 0.2);
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);">
+  <div style="padding: 0px 1px;">
+    <div class="row" style="background-color: #293838;margin-top: -15px;">
+      <div class="col-md-10">
+        <h4 style="color: white;
+      margin-top: 10px;text-align: left;float: left;">
+          Transaction Details
+        </h4>
+      </div>
+      <div class="col-md-2">
+        <p (click)="closeMyDialog()" class="close" style="
+          margin-top: 5px;
+          margin-top: 9px;
+          color: #fff;
+          opacity: 1;" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="transactionInfoDetails"
+        class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad">
+        <div class="panel panel-info">
+          <div class="panel-body">
+            <table class="table table-user-information"
+              *ngIf="transactionInfoDetails.TransactionType=='BillPayment' || transactionInfoDetails.TransactionType=='RefundBillPayment'">
+              <tr>
+                <td class="col-sm-4">Bill Payment API</td>
+                <td class="col-sm-8">{{transactionInfoDetails.Data.BillPaymentApiName}}</td>
+              </tr>
+              <tr>
+                <td>Bill Payment Provider</td>
+                <td>{{transactionInfoDetails.Data.BillPaymentProvider}}</td>
+              </tr>
+              <tr>
+                <td>Bill Payment Status</td>
+                <td>{{transactionInfoDetails.Data.BillPaymentStatus}}</td>
+              </tr>
+              <tr>
+                <td>Utility Ref</td>
+                <td>{{transactionInfoDetails.Data.UtilityRef}}</td>
+              </tr>
+              <tr>
+                <td>Transaction Id</td>
+                <td>{{transactionInfoDetails.Data.TransactionId}}</td>
+              </tr>
+              <tr>
+                <td>Reference Id</td>
+                <td>{{transactionInfoDetails.Data.ReferenceId}}</td>
+              </tr>
+              <tr>
+                <td>Response</td>
+                <td class="word-break">{{transactionInfoDetails.Data.Response}}</td>
+              </tr>
+            </table>
+
+            <table class="table table-user-information"
+              *ngIf="transactionInfoDetails.TransactionType=='AirTime' || transactionInfoDetails.TransactionType=='RefundAirTime'">
+              <tr>
+                <td class="col-sm-4">Airtime Provider</td>
+                <td class="col-sm-8">{{transactionInfoDetails.Data.AirtimeProvider}}</td>
+              </tr>
+              <tr>
+                <td>Amount</td>
+                <td>{{transactionInfoDetails.Data.PackageAmount}} {{transactionInfoDetails.Data.PackageCurrency}}</td>
+              </tr>
+              <tr>
+                <td>Phone Number</td>
+                <td>{{transactionInfoDetails.Data.PhoneNumber}}</td>
+              </tr>
+              <tr>
+                <td>Airtime Status</td>
+                <td>{{transactionInfoDetails.Data.AirtimeStatus}}</td>
+              </tr>
+              <tr>
+                <td>Error Text</td>
+                <td class="word-break">{{transactionInfoDetails.Data.ErrorText}}</td>
+              </tr>
+              <tr>
+                <td>Transaction Id</td>
+                <td>{{transactionInfoDetails.Data.TransactionId}}</td>
+              </tr>
+              <tr>
+                <td>External Transaction Id</td>
+                <td>{{transactionInfoDetails.Data.ExternalTransactionId}}</td>
+              </tr>
+            </table>
+
+            <table class="table table-user-information" *ngIf="transactionInfoDetails.TransactionType=='Reward'">
+              <tr *ngIf="transactionInfoDetails.Data.Customerguid">
+                <td>Customer Guid</td>
+                <td><a
+                    href="customer-details/{{transactionInfoDetails.Data.Customerguid}}">{{transactionInfoDetails.Data.Customerguid}}</a>
+                </td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.PhoneNumber">
+                <td>Phone Number</td>
+                <td><a
+                    href="customer-details/{{transactionInfoDetails.Data.Customerguid}}">{{transactionInfoDetails.Data.PhoneNumber}}</a>
+                </td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.RewardCode">
+                <td>Reward Code</td>
+                <td><a
+                    href="customer-details/{{transactionInfoDetails.Data.RewardCode}}">{{transactionInfoDetails.Data.RewardCode}}</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="col-sm-4">Reason</td>
+                <td class="col-sm-8">{{transactionInfoDetails.Data.Reason}}</td>
+              </tr>
+            </table>
+
+            <table class="table table-user-information" *ngIf="transactionInfoDetails.TransactionType=='Deposit'">
+              <tr>
+                <td class="col-sm-4">Bank Name</td>
+                <td class="col-sm-8">{{transactionInfoDetails.Data.BankName}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.Branch">
+                <td>Branch</td>
+                <td>{{transactionInfoDetails.Data.Branch}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.AccountNumber">
+                <td>Account Number</td>
+                <td>{{transactionInfoDetails.Data.AccountNumber}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.Status">
+                <td>Status</td>
+                <td>{{transactionInfoDetails.Data.Status}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.ExternalTransactionId">
+                <td>External Transaction Id</td>
+                <td>{{transactionInfoDetails.Data.ExternalTransactionId}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.TransactionId">
+                <td>Transaction Id</td>
+                <td>{{transactionInfoDetails.Data.TransactionId}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.Message">
+                <td>Message</td>
+                <td class="word-break">{{transactionInfoDetails.Data.Message}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.OutputDto">
+                <td>Output Dto</td>
+                <td class="word-break">{{transactionInfoDetails.Data.OutputDto}}</td>
+              </tr>
+            </table>
+
+            <table class="table table-user-information"
+              *ngIf="transactionInfoDetails.TransactionType=='Withdraw' || transactionInfoDetails.TransactionType=='WithdrawalRefund'">
+              <tr>
+                <td class="col-sm-4">Bank Name</td>
+                <td class="col-sm-8">{{transactionInfoDetails.Data.BankName}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.Branch">
+                <td>Branch</td>
+                <td>{{transactionInfoDetails.Data.Branch}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.ShortCode">
+                <td>Short Code</td>
+                <td>{{transactionInfoDetails.Data.ShortCode}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.AccountNumber">
+                <td>Account Number</td>
+                <td>{{transactionInfoDetails.Data.AccountNumber}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.Status">
+                <td>Status</td>
+                <td>{{transactionInfoDetails.Data.Status}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.ExternalTransactionId">
+                <td>External Transaction Id</td>
+                <td>{{transactionInfoDetails.Data.ExternalTransactionId}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.TransactionId">
+                <td>Transaction Id</td>
+                <td>{{transactionInfoDetails.Data.TransactionId}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.Message">
+                <td>Message</td>
+                <td class="word-break">{{transactionInfoDetails.Data.Message}}</td>
+              </tr>
+              <tr *ngIf="transactionInfoDetails.Data.OutputDto">
+                <td>Output Dto</td>
+                <td class="word-break">{{transactionInfoDetails.Data.OutputDto}}</td>
+              </tr>
+            </table>
+
+            <table class="table table-user-information"
+              *ngIf="transactionInfoDetails.TransactionType=='PartnerWithdrawal'">
+              <tr>
+                <td class="col-sm-4">Partner</td>
+                <td class="col-sm-8">{{transactionInfoDetails.Data.Partner}}</td>
+              </tr>
+              <tr>
+                <td>Short Code</td>
+                <td>{{transactionInfoDetails.Data.ShortCode}}</td>
+              </tr>
+              <tr>
+                <td>Staus</td>
+                <td>{{transactionInfoDetails.Data.Staus}}</td>
+              </tr>
+              <tr>
+                <td>Amount</td>
+                <td>{{transactionInfoDetails.Data.Amount}}</td>
+              </tr>
+              <tr>
+                <td>Fees</td>
+                <td>{{transactionInfoDetails.Data.Fees}}</td>
+              </tr>
+              <tr>
+                <td>Partner Reference</td>
+                <td>{{transactionInfoDetails.Data.PartnerReference}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <button class="btn btn-success btn-md" style="float:right; margin-right: 15px;"
+        (click)="closeMyDialog()">Close</button>
+    </div>
+  </div>
+</dialog>

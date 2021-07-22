@@ -1,0 +1,82 @@
+<!-- The Modal -->
+<div class="modal fade" id="AdditionalKycFileModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div [ngBusy]="busyAdditionalKycFile"></div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close" (click)="hideAdditionalFilesModal()">&times;</button>
+        <h4 *ngIf="customerType==1" class="panel-title">Additional kyc files for customer: {{customerName}}</h4>
+        <h4 *ngIf="customerType==2" class="panel-title">KYA files for Agent: {{customerName}}</h4>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="card" style="height: 200px; overflow-y: auto;" *ngIf="additionalKycFiles.length > 0">
+          <h5 *ngIf="customerType==1">List of additional kyc files:</h5>
+          <h5 *ngIf="customerType==2">List of KYA files:</h5>
+          <table class="table table-bordered small">
+            <thead style="white-space: nowrap">
+              <tr>
+                <th scope="col">File</th>
+                <th scope="col">Document Type</th>
+                <th scope="col">Description</th>
+                <th scope="col" class="nowrap">Uploaded By</th>
+                <th scope="col">Uploaded</th>
+              </tr>
+            </thead>
+            <tbody style="word-break: break-all">
+              <tr *ngFor="let additionalKycFile of additionalKycFiles">
+                <td>
+                  <a target ="_blank" href="{{additionalKycFile.FileUrl+additionalKycFile.FileUrlSas}}" download="{{additionalKycFile.FileName}}">Download file</a>
+                </td>
+                <td>{{additionalKycFile.KycDocumentType}}</td>
+                <td>{{additionalKycFile.Description}}</td>
+                <td>{{additionalKycFile.UploadedBy}}</td>
+                <td>{{additionalKycFile.UploadedDate}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-header">
+            <h5>Upload new files:</h5>
+          </div>
+          <div class="form-group row">
+            <label for="kycDocumentType" class="col-md-4 col-form-label text-normal">Document Type</label>
+            <div class="col-md-8">
+              <select class="form-control" id="kycDocumentType" [(ngModel)]="kycDocumentTypeId" name="kycDocumentTypeId" value="">
+                <option value="" selected>-- Select --</option>
+                <ng-container *ngFor="let kycDocumentType of kycDocumentTypeList">
+                  <option *ngIf="kycDocumentType.CustomerTypeId==customerType" [value]="kycDocumentType.KycDocumentTypeId">
+                    {{kycDocumentType.KycDocumentTypeName}}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="description" class="col-md-4 col-form-label text-normal">Description *</label>
+            <div class="col-md-8">
+              <input type="text" id="description" class="form-control" [(ngModel)]='description' />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="file" class="col-md-4 col-form-label text-normal">File *</label>
+            <div class="col-md-8">
+              <div class="btn btn-default col-md-12">
+                <input #fileInput type="file" multiple  (change)="selectFiles($event)"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button class="btn btn-success" [disabled]="!selectedFiles || !description" (click)="uploadAdditionalKycFile()">
+          Upload
+        </button>
+        <button type="button" class="btn btn-danger" (click)="hideAdditionalFilesModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<!-- The Modal -->
+<div class="modal fade" id="EscalateKycModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div [ngBusy]="busyEscalateKyc"></div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close" (click)="hideEscalateKycModal()">&times;</button>
+        <h4 class="modal-title">Escalation for Customer: {{customerName}}</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        *Reason:
+        <textarea id="reason" class="form-control" rows="2" [(ngModel)]="escalationReason" ></textarea>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click) ="escalateCustomersKyc(false)" [disabled] ="!kycRequest.IsEscalated">Remove</button>
+        <button type="button" class="btn btn-primary" (click) ="escalateCustomersKyc(true)" [disabled]="!isReasonProvided()">Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>

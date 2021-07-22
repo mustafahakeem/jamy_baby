@@ -1,0 +1,25 @@
+<!-- The Modal -->
+<div class="modal fade" id="SmsSendModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div [ngBusy]="busySms"></div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button type="button" class="close" (click)="hideSMSModal()">&times;</button>
+        <h4 class="modal-title">Send Sms</h4>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <textarea id="message" class="form-control" rows="6" [(ngModel)]='message'></textarea>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="sendSMSModal()" >Send</button>
+        <button type="button" class="btn btn-danger" (click)="hideSMSModal()">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div>

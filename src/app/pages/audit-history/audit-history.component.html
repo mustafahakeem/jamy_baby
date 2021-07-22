@@ -1,0 +1,15 @@
+<div>
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title"> Audit history
+			</h3>
+		</div>
+
+		<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-md-12">
+			<div [ngBusy]="busy"></div>
+			<div *ngIf="showGrid" id="auditHistories" class="row">
+				<data-grid #customerGrid [dataGridConfig]="dataGridConfig"></data-grid>
+			</div>
+		</div>
+	</div>
+</div>

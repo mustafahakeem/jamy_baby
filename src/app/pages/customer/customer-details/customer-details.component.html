@@ -1,0 +1,606 @@
+<style>
+    tr.noBorder td {
+        border: 0;
+    }
+
+    .reward-table {
+        margin-bottom: -8px;
+        margin-left: -10px;
+        margin-top: -1%;
+    }
+</style>
+
+<div *ngIf="isValidUser==true">
+    <div>
+        <div class="row">
+            <div [ngBusy]="busy"></div>
+            <div
+                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad">
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{customerDetail.Name}}'s Profile <img
+                                *ngIf="customerDetail.Business && customerDetail.Business.IsPower"
+                                style="padding-left: 15px" height="30px" src="/public/assets/img/power.png">
+                            <img *ngIf="customerDetail.IsBusiness" style="padding-left: 15px" height="30px"
+                                src="/public/assets/img/spennbusiness256px.png">
+                            <img *ngIf="customerDetail.CustomerType==2" style="padding-left: 15px" height="30px" 
+                                src="/public/assets/img/agent.png" />
+                        </h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center">
+                                <img alt="User Pic" src="{{customerDetail.Picture}}" class="img-circle img-responsive">
+                            </div>
+
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                        <tr>
+                                            <td>CustomerGUID:</td>
+                                            <td>{{customerDetail.CustomerGuid}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Name:</td>
+                                            <td>
+                                                <div>
+                                                    <span>{{customerDetail.Name}}</span>
+                                                    <button *ngIf="isSupervisor"
+                                                        class="btn btn-primary col-sm-offset-1 btn-sm"
+                                                        (click)="showNameChangeModal(customerDetail)">Change</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone:</td>
+                                            <td>{{customerDetail.Phone}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Country:</td>
+                                            <td>{{customerDetail.CountryName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Currency:</td>
+                                            <td>{{customerDetail.CurrencyIsoCode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bank Name:</td>
+                                            <td>{{customerDetail.BankName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email:</td>
+                                            <td>{{customerDetail.Email}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reward Code:</td>
+                                            <td>{{customerDetail.RewardCode}}
+                                                <button type="button"
+                                                    class="ml-3 btn btn-primary btn-sm col-sm-offset-1"
+                                                    *ngIf="isKycManager" data-toggle="modal"
+                                                    data-target="#BulkUnverifyModal">
+                                                    Unverify all referred
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Referrer Reward Code:</td>
+                                            <td *ngIf="customerDetail.RewardModelViewForProfile == null">
+                                                <a *ngIf="customerDetail.ReferrerRewardCode  && !customerDetail.IsSpecificRewardCode"
+                                                    href="customer-details/{{customerDetail.ReferrerRewardCode}}">
+                                                    <span>{{customerDetail.ReferrerRewardCode}}</span>
+                                                </a>
+                                                <span
+                                                    *ngIf="customerDetail.ReferrerStatus == 'Locked' || customerDetail.ReferrerStatus == 'Suspended'"
+                                                    style="font-weight: bold; margin-left: 5px;">(BLOCKED)</span>
+                                                <p
+                                                    *ngIf="customerDetail.ReferrerRewardCode && customerDetail.IsSpecificRewardCode">
+                                                    {{customerDetail.ReferrerRewardCode}} <span
+                                                        style="font-style:italic">(Specific Reward Code)</span>
+                                                </p>
+                                            </td>
+                                            <td
+                                                *ngIf="customerDetail.RewardModelViewForProfile && customerDetail.RewardModelViewForProfile.RewardModelId===0">
+                                                <a *ngIf="customerDetail.ReferrerRewardCode  && !customerDetail.RewardModelViewForProfile.IsSpecificRewardCode"
+                                                    href="customer-details/{{customerDetail.ReferrerRewardCode}}">
+                                                    <span>{{customerDetail.ReferrerRewardCode}}</span>
+                                                </a>
+                                                <p
+                                                    *ngIf="customerDetail.ReferrerRewardCode && customerDetail.RewardModelViewForProfile.IsSpecificRewardCode">
+                                                    {{customerDetail.ReferrerRewardCode}} <span
+                                                        style="font-style:italic">(Specific Reward Code)</span>
+                                                </p>
+                                            </td>
+                                            <td
+                                                *ngIf="customerDetail.RewardModelViewForProfile && customerDetail.RewardModelViewForProfile.RewardModelId>0">
+                                                <table class="table table-user-information reward-table">
+                                                    <tr class="noBorder">
+                                                        <td>Referrer Reward Code</td>
+                                                        <td>
+                                                            Reward Model Id
+                                                        </td>
+                                                        <td>Is Completed</td>
+                                                        <td>Is Active</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <a *ngIf="customerDetail.ReferrerRewardCode  && !customerDetail.RewardModelViewForProfile.IsSpecificRewardCode"
+                                                                href="customer-details/{{customerDetail.ReferrerRewardCode}}">
+                                                                {{customerDetail.ReferrerRewardCode}}
+                                                            </a>
+                                                            <span
+                                                                *ngIf="customerDetail.ReferrerStatus == 'Locked' || customerDetail.ReferrerStatus == 'Suspended'"
+                                                                style="font-weight: bold; margin-left: 5px;">(BLOCKED)</span>
+
+                                                            <p
+                                                                *ngIf="customerDetail.ReferrerRewardCode && customerDetail.RewardModelViewForProfile.IsSpecificRewardCode">
+                                                                <span
+                                                                    style="font-weight: bold">{{customerDetail.ReferrerRewardCode}}</span>
+                                                                <span style="font-style:italic">(Specific Reward
+                                                                    Code)</span>
+                                                            </p>
+                                                        </td>
+                                                        <td>
+                                                            <span style="font-weight: bold">
+                                                                {{customerDetail.RewardModelViewForProfile.RewardModelId}}
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span style="font-weight: bold"
+                                                                *ngIf="customerDetail.RewardModelViewForProfile.IsCompleted">
+                                                                Yes
+                                                            </span>
+                                                            <span style="font-weight: bold"
+                                                                *ngIf="!customerDetail.RewardModelViewForProfile.IsCompleted">
+                                                                No
+                                                            </span>
+                                                        </td>
+                                                        <td>
+                                                            <span style="font-weight: bold">
+                                                                {{customerDetail.RewardModelViewForProfile.RewardModelStatus}}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone verified:</td>
+                                            <td>{{customerDetail.IsVerified}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kyc Status:</td>
+                                            <td>
+                                                <span>
+                                                    {{customerDetail.KycStatus}}
+                                                </span>
+                                                <button type="button" class="btn btn-primary btn-sm"
+                                                    *ngIf="customerGuid && isKycManager" data-toggle="modal"
+                                                    data-target="#ManualKycModal" style="margin-left: 10px;">
+                                                    Change KYC Status
+                                                </button>
+                                                <button type="button" class="btn btn-link btn-sm"
+                                                    *ngIf="customerGuid && isKycManager" data-toggle="modal"
+                                                    data-target="#AdditionalKycFileModal">
+                                                    Additional Kyc/Due diligence files {{additionalKycFileCount}}
+                                                </button>
+                                                <app-additional-kyc-file *ngIf="customerGuid  && isKycManager"
+                                                    [customerGuid]="customerDetail.CustomerGuid"
+                                                    [customerName]="customerDetail.Name"
+                                                    [customerType]="customerDetail.CustomerType"
+                                                    [fileCount]="additionalKycFileCount"
+                                                    (isfileCountChange)="additionalKycFileCount = $event"></app-additional-kyc-file>
+                                                <manual-kyc-modal [customerGuid]="customerGuid"
+                                                    [kycStatus]="customerDetail.KycStatus"
+                                                    [callBackFn]="onManualKycVerification.bind(this)">
+                                                </manual-kyc-modal>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Customer Status:</td>
+                                            <td>
+                                                <span class="btn btn-success" *ngIf="customerDetail.CustomerStatus==1">
+                                                    {{customerDetail.Status}}
+                                                    <i class="glyphicon glyphicon-ok-circle"></i>
+                                                </span>
+                                                <span class="btn btn-danger" *ngIf="customerDetail.CustomerStatus==0">
+                                                    {{customerDetail.Status}}
+                                                    <i class="glyphicon glyphicon-ban-circle"></i>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{customerDetail.Status}} date:</td>
+                                            <td>{{customerDetail.StatusModifiedDate | date: 'medium'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last Login:</td>
+                                            <td>{{customerDetail.LastLogin | date: 'medium'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Create Date:</td>
+                                            <td>{{customerDetail.CreateDate | date: 'medium'}}</td>
+                                        </tr>
+                                        <tr *ngIf="customerDetail.KycDeadline">
+                                            <td>Kyc Deadline:</td>
+                                            <td>{{customerDetail.KycDeadline | date: 'medium'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Review Kyc Status:</td>
+                                            <td>{{customerDetail.ReviewKycStatus }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Business Permission Status:</td>
+                                            <td>
+                                                <span>
+                                                    {{customerDetail.BusinessPermissionStatus}}
+                                                </span>
+                                                <span
+                                                    *ngIf="customerDetail.BusinessPermissionStatus!='Approved'&&isKycProcessor==true"
+                                                    class="ml-3 btn btn-success col-sm-offset-1"
+                                                    (click)="approveBusinessPermission()">
+                                                    Approve
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kyc Tier:</td>
+                                            <td *ngIf="isSupervisor==0">{{customerDetail.KycTier }}</td>
+                                            <td *ngIf="isSupervisor==1" class="form-inline row">
+                                                <select [(ngModel)]="selectedKycTier" class="mr-3 form-control">
+                                                    <option value="">-- Select --</option>
+                                                    <option *ngFor="let kycTier of kycTierList"
+                                                        [value]="kycTier.KycTierId" [title]="kycTier.Description"
+                                                        [selected]="kycTier.KycTierName==customerDetail.KycTier">
+                                                        {{kycTier.KycTierName}}
+                                                    </option>
+                                                </select>
+                                                <span class="ml-3 btn btn-primary col-sm-offset-1"
+                                                    (click)="updateKycTier(selectedKycTier)">
+                                                    Update
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="PinResetRequest && PinResetRequest.CustomerPasswordResetStatus==4">
+                                            <td>
+
+                                                Approve Pin Reset Request
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success btn-sm"
+                                                    (click)="approvePasswordResetRequest(PinResetRequest)"
+                                                    *ngIf="PinResetRequest && PinResetRequest.CustomerPasswordResetStatus==4">
+                                                    Approve <span class="glyphicon glyphicon-ban-right"></span>
+                                                </button>
+
+                                                <button type="button" class="btn btn-warning btn-sm"
+                                                    (click)="rejectPasswordResetRequest(PinResetRequest)"
+                                                    *ngIf="PinResetRequest && PinResetRequest.CustomerPasswordResetStatus==4">
+                                                    Reject <span class="glyphicon glyphicon-ban-right"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr
+                                            *ngIf="SecurityCodeResetRequest && SecurityCodeResetRequest.CustomerPasswordResetStatus==4">
+                                            <td>
+
+                                                Approve security code reset Request
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success btn-sm"
+                                                    (click)="approvePasswordResetRequest(SecurityCodeResetRequest)"
+                                                    *ngIf="SecurityCodeResetRequest && SecurityCodeResetRequest.CustomerPasswordResetStatus==4">
+                                                    Approve <span class="glyphicon glyphicon-ban-right"></span>
+                                                </button>
+
+                                                <button type="button" class="btn btn-warning btn-sm"
+                                                    (click)="rejectPasswordResetRequest(SecurityCodeResetRequest)"
+                                                    *ngIf="SecurityCodeResetRequest && SecurityCodeResetRequest.CustomerPasswordResetStatus==4">
+                                                    Reject <span class="glyphicon glyphicon-ban-right"></span>
+                                                </button>
+                                            </td>
+
+                                        </tr>
+                                        <tr *ngIf="customerDetail.CustomerType==1">
+
+                                            <td *ngIf="customerDetail.HasKycSubmitted">
+                                                <button class="btn btn-primary" (click)="getKyc()">
+                                                    Show/Hide Kyc
+                                                </button>
+                                            </td>
+                                            <td
+                                                *ngIf="customerDetail.KycStatus == 'JamesVerified' && !customerDetail.IsBusiness && hasBusinessPermission()">
+                                                <button class="btn btn-primary"
+                                                    (click)="registerExistingCustomerSpennBusiness(customerDetail.CustomerGuid)">
+                                                    Register Spenn Business
+                                                </button>
+                                            </td>
+                                            <td *ngIf="!customerDetail.IsSpennUser && hasBusinessPermission()">
+                                                <button class="btn btn-primary"
+                                                    (click)="registerExistingSpennSpennBusinessCustomerToSpenn(customerDetail.CustomerGuid)">
+                                                    Register To Spenn!
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <customer-name-change-modal [modalId]="nameModalId" [personalDetails]="personalDetails"
+                            (updateName)="changeCustomerName($event)"></customer-name-change-modal>
+                    </div>
+
+                    <app-customer-kyc-info *ngIf="customerKycDetail!=null && showKyc" [kycDetail]="customerKycDetail">
+                    </app-customer-kyc-info>
+
+                    <div *ngIf="kycRequest && showKyc">
+                        <div class="panel-heading">
+                            <b> {{customerDetail.Name}}'s Kyc Request Info: </b>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12 ">
+                                    <app-kyc-request [kycRequest]="kycRequest"></app-kyc-request>
+                                    <app-kyc-escalate [kycRequest]="kycRequest" [customerName]="customerDetail.Name" [customerGuid]="customerDetail.CustomerGuid"></app-kyc-escalate>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-heading" *ngIf="kycRequest !=null && showKyc && (isSupervisor || isKycProcessor)">
+                        <div class="row" *ngIf="isSupervisor">
+                            <div class="col-md-4" style="font-size:20px">
+                                <p *ngIf="customerDetail.KycStatus == 'JamesVerified'">
+                                    Customer has been Approved.
+                                </p>
+                                <p *ngIf="customerDetail.KycStatus == 'Unverified'">
+                                    Customer has been Rejected.
+                                </p>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <button data-toggle="modal" data-target="#myModal"
+                                    *ngIf="customerDetail.KycStatus == 'JamesVerified' || customerDetail.KycStatus == 'Verified' || customerDetail.KycStatus === 'PendingProcessing'"
+                                    class="btn btn-warning">
+                                    Reject Customer
+                                </button>
+                                <button
+                                    *ngIf="customerDetail.KycStatus == 'Unverified' || customerDetail.KycStatus == 'Verified' || customerDetail.KycStatus === 'PendingProcessing'"
+                                    class="btn btn-success" (click)="jamesReview(true)">
+                                    Approve Customer
+                                </button>
+                                <button *ngIf="customerDetail.KycStatus === 'PendingProcessing' || customerDetail.KycStatus == 'Verified'" class="btn btn-danger" data-toggle="modal" data-target="#EscalateKycModal"
+                                >Escalate Customer</button>
+                            </div>
+                        </div>
+                        <!-- KYC processor -->
+                        <div class="row" *ngIf="!isSupervisor && isKycProcessor">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <button data-toggle="modal" data-target="#myModal"
+                                    *ngIf=" customerDetail.KycStatus == 'Verified' || customerDetail.KycStatus === 'PendingProcessing'"
+                                    class="btn btn-warning">
+                                    Reject Customer
+                                </button>
+                                <button
+                                    *ngIf=" customerDetail.KycStatus == 'Verified' || customerDetail.KycStatus === 'PendingProcessing'"
+                                    class="btn btn-success" (click)="jamesReview(true)">
+                                    Approve Customer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div *ngIf="customerDetail.Business">
+                        <div class="panel-heading">
+                            <div class="col-md-offset-3 col-lg-offset-3">
+                                <b class="panel-title" style="font-size: 30px;margin-top: 20px">
+                                    Business Information
+                                </b>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class=" col-md-3 col-lg-3 " align="center">
+                                    <img *ngIf="customerDetail.Business.BusinessImage && customerDetail.Business.BusinessImage.length>0"
+                                        alt="Business Image" src="{{customerDetail.Business.BusinessImage}}"
+                                        class="img-circle img-responsive">
+                                </div>
+                                <div class=" col-md-9 col-lg-9 ">
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                            <tr>
+                                                <td>Name:</td>
+                                                <td>{{customerDetail.Business.BusinessName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address:</td>
+                                                <td>{{customerDetail.Business.Address}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address 2:</td>
+                                                <td>{{customerDetail.Business.Address2}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Business Category:</td>
+                                                <td>{{customerDetail.Business.BusinessCategory.Name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone Number:</td>
+                                                <td>{{customerDetail.Business.BusinessPhoneNumber}}</td>
+                                            </tr>
+                                            <tr
+                                                *ngIf="customerDetail.Business.Latitude && customerDetail.Business.Latitude>0">
+                                                <td>Location:</td>
+                                                <td>
+                                                    {{customerDetail.Business.Latitude}},
+                                                    {{customerDetail.Business.Longitude}}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Location IsOnline:</td>
+                                                <td>
+                                                    <label class="switch">
+                                                        <input type="checkbox" id="togBtn"
+                                                            (ngModelChange)="changeIsOnlineFlag($event)"
+                                                            [(ngModel)]="customerDetail.Business.IsOnline">
+                                                        <div class="slider round">
+                                                            <span class="on">ON</span>
+                                                            <span class="off">OFF</span>
+                                                        </div>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <a data-original-title="Email" data-toggle="tooltip" type="button"
+                            class="btn btn-sm btn-primary" href="mailto:{{customerDetail.Email}}">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                        </a>
+                        <button type="button" class="btn btn-success btn-sm pull-right" (click)="unLockCustomer()"
+                            *ngIf="customerDetail.CustomerStatus==0">
+                            Unlock <span class="glyphicon glyphicon-ok-circle"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm pull-right" (click)="lockCustomer()"
+                            *ngIf="customerDetail.CustomerStatus==1">
+                            Lock <span class="glyphicon glyphicon-ban-circle"></span>
+                        </button>
+
+                    </div>
+                </div>
+
+                <div *ngIf="customerDetail.IsBusiness && hasBusinessPermission()" class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">SpennBusiness Users List</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-10 col-lg-10 col-sm-12" align="center">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th *ngFor='let column of businessUserColumns'>{{column.label}}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr
+                                                *ngFor='let businessUser of businessUsers; let userIndex = index;trackBy:trackByIdx'>
+                                                <td>{{businessUser.Email}}</td>
+                                                <td>{{businessUser.PhoneNumber}}</td>
+                                                <td>
+                                                    <div
+                                                        *ngFor="let permission of businessUser.PermissionGroups; let groupIndex = index;trackBy:trackByIdx">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            [(ngModel)]="businessUsers[userIndex].PermissionGroups[groupIndex].Checked"
+                                                            id="user{{userIndex}}-group{{groupIndex}}"
+                                                            name="user{{userIndex}}-group{{groupIndex}}" />
+                                                        <label for="user{{userIndex}}-group{{groupIndex}}"
+                                                            class="col-form-label text-normal">{{permission.GroupName}}</label>
+                                                    </div>
+                                                    <div class="my-10">
+                                                        <button class="btn btn-primary"
+                                                            (click)="updateSpennBusinessUserPermissions(userIndex)">
+                                                            Update Permissions
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-primary"
+                                                        (click)="resetSpennBusinessCustomerPassword(businessUser.UserGuid,businessUser.Email,businessUser.PhoneNumber)">
+                                                        Reset Password
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-primary" 
+                                                        (click)="removeUserFromSpennBusiness(businessUser)">
+                                                        Remove</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <app-customer-account-list #accountList *ngIf="customerGuid" [customerGuid]="customerGuid"
+                    [showTransactionList]="true">
+                </app-customer-account-list>
+
+                <app-customer-loan-list #loanList *ngIf="customerGuid" [customerGuid]="customerGuid">
+                </app-customer-loan-list>
+            </div>
+        </div>
+    </div>
+    <app-kyc-request-response-table  [customerGuid]="customerGuid"></app-kyc-request-response-table>
+    <div>
+        <h5>Customer Sms</h5>
+        <button class="btn btn-primary" (click)="showSms()" *ngIf="!showSmsList">
+            Show Sms
+        </button>
+        <button class="btn btn-primary" (click)="showSms()" *ngIf="showSmsList">
+            Hide Sms
+        </button>
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-primary" *ngIf="customerGuid" data-toggle="modal"
+            data-target="#SmsSendModal">
+            Send Sms
+        </button>
+        <br>
+        <br>
+        <sms-list #smsListComponenet *ngIf="showSmsList" [customerGuid]="customerGuid"></sms-list>
+        <app-send-sms *ngIf="customerGuid" [customerGuid]="customerGuid"></app-send-sms>
+        <app-bulk-unverify *ngIf="customerGuid && isKycManager" [rewardCode]="customerDetail.RewardCode"></app-bulk-unverify>
+    </div>
+    <div>
+        <h5>Customer Audit History</h5>
+        <button class="btn btn-primary" (click)="showAuditHistory=!showAuditHistory" *ngIf="!showAuditHistory">
+            Show
+            Audit History
+        </button>
+        <button class="btn btn-primary" (click)="showAuditHistory=!showAuditHistory" *ngIf="showAuditHistory">
+            Hide Audit
+            History
+        </button>
+        <br>
+        <br>
+        <app-audit-history #auditHistory *ngIf="showAuditHistory" [customerGuid]="customerGuid"></app-audit-history>
+    </div>
+    <h5 *ngIf="!this.customerDetail.IsBusiness && this.customerDetail.CustomerType==1">
+        <span *ngIf="!recoveryWords && resetButtonView">Generating Temporary recovery word list ... ... ...</span>
+        <span *ngIf="!recoveryWords && !resetButtonView">Generate Temporary recovery word list</span>
+        <span *ngIf="recoveryWords">
+            Temporary recovery word list is generated for {{customerDetail.Name}} which will be
+            expired within 1 hour
+        </span>
+    </h5>
+
+    <button *ngIf="!resetButtonView && !this.customerDetail.IsBusiness && this.customerDetail.CustomerType==1" class="btn btn-primary"
+        (click)="resetButtonView=!resetButtonView; resetRecoveryWordsAndView()">
+        Reset
+        Recovery Word List
+    </button>
+    <div class="height-20" *ngIf="!this.customerDetail.IsBusiness && this.customerDetail.CustomerType==1">
+        <span class="label label-default" *ngFor="let word of recoveryWords; let i = index" style="font-size: large">
+            {{word}} {{i< recoveryWords.length-1 && ' ' ||''}} </span>
+    </div>
+</div>
+
+<div *ngIf="!isValidUser">
+    Wrong customer Guid or reward code.
+    <button (click)="router.navigate(['/customer/'])">Back</button>
+</div>
+
+<app-rejection-reason-modal [modalId]="modalId" [customerGuid]="customerGuid" [callBackFn]="confirmReject.bind(this)">
+</app-rejection-reason-modal>

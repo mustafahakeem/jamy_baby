@@ -1,0 +1,14 @@
+<div>
+    <div *ngIf="data.Title" >
+        <h3 id="header">{{data.Title}}</h3>
+    </div>
+    <div mat-dialog-content>
+        <p >{{data.Message}}</p>
+        <textarea class="form-control" id="text-box"  [(ngModel)]="feedback"></textarea>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-button (click)="onCloseClick()" >Close</button>
+        <button mat-button id="btn-submit" [disabled]="feedback == ''" (click)="onSubmitClick()">Submit</button>
+    </div>
+</div>
+

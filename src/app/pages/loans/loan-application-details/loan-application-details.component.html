@@ -1,0 +1,81 @@
+<div class="col-md-12">
+  <div [ngBusy]="busy"></div>
+  <div *ngIf="details" class="row">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{details.CustomerName}}'s Loan Application Details</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-8">
+          <table class="table table-user-information">
+            <tbody>
+              <tr>
+                <td>Customer Name</td>
+                <td>{{details.CustomerName}}</td>
+              </tr>
+              <tr>
+                <td>Customer Guid</td>
+                <td>{{details.CustomerGuid}}</td>
+              </tr>
+              <tr>
+                <td>Loan Number</td>
+                <td>{{details.LoanNumber}}</td>
+              </tr>
+              <tr>
+                <td>Loan Amount</td>
+                <td>{{details.LoanAmount}} {{details.Currency}}</td>
+              </tr>
+              <tr>
+                <td>Loan Application Date</td>
+                <td>{{details.ApplicationDate | date: 'medium'}}</td>
+              </tr>
+              <tr>
+                <td>OTP Verification Date</td>
+                <td>{{details.OtpVerifiedDate | date: 'medium'}}</td>
+              </tr>
+              <tr>
+                <td>Selfie Verified</td>
+                <td>{{details.IsSelfieVerified}}</td>
+              </tr>
+              <tr>
+                <td>Confidence</td>
+                <td>{{details.SelfieConfidence*100}} %</td>
+              </tr>
+              <tr>
+                <td>Kyc Selfie</td>
+                <td>
+                  <div class="image-box">
+                      <img alt="kycSelfie" class="kyc-image" src="{{details.KycSelfieUrl}}">
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Loan Application Selfie</td>
+                <td>
+                  <div class="image-box">
+                      <img alt="loanSelfie" class="kyc-image" src="{{details.SelfieUrl}}">
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-sm-6">
+            <button class="btn btn-warning" (click)="RejectLoanApplication()">Reject</button>&nbsp;&nbsp;
+            <button class="btn btn-success" (click)="ApproveLoanApplication()">Approve</button>
+            <div class="pull-right">
+              <button class="btn btn-default pagination-nextpage" (click)="gotoListPage()">
+                Go To List Page
+                <i class="glyphicon glyphicon-list"></i></button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

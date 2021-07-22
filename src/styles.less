@@ -1,0 +1,235 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/dist/css/bootstrap.css";
+@import "../node_modules/font-awesome/css/font-awesome.css";
+@import "../node_modules/admin-lte/dist/css/AdminLTE.css";
+@import "../node_modules/admin-lte/dist/css/skins/skin-blue.css";
+@import "../node_modules/ionicons/dist/css/ionicons.css";
+@import "../node_modules/angular2-toaster/src/toaster.css";
+@import "../node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+
+
+
+.skin-blue .main-header .navbar {
+background-color: darkcyan !important;
+}
+.skin-blue .main-header .logo {
+  background-color: #2E3E3E !important;
+  color: #ffffff;
+  border-bottom: 0 solid transparent;
+}
+
+.skin-blue .wrapper, .skin-blue .main-sidebar, .skin-blue .left-side {
+  background-color: #2E3E3E !important;
+}
+.skin-blue .sidebar-menu > li.header {
+  color: #4b646f;
+  background: #2E3E3E !important;
+}
+
+// Loading page with cubes
+.loading {
+    opacity: 0;
+    transition: opacity .8s ease-in-out;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: white;
+    z-index: -1;
+}
+app-root:empty + .loading {
+    opacity: 1;
+    z-index: 100;
+}
+app-root:empty + .loading h1 {
+    color: black;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    text-align: center;
+    transform: translate(0, -50%);
+}
+//
+//.sk-cube-grid {
+//  width: 60px;
+//  height: 60px;
+//  margin: 100px auto;
+//}
+//
+//.sk-cube-grid .sk-cube {
+//  width: 33%;
+//  height: 33%;
+//  background-color: black;
+//  float: left;
+//  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+//          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+//}
+//.sk-cube-grid .sk-cube1 {
+//  -webkit-animation-delay: 0.2s;
+//          animation-delay: 0.2s; }
+//.sk-cube-grid .sk-cube2 {
+//  -webkit-animation-delay: 0.3s;
+//          animation-delay: 0.3s; }
+//.sk-cube-grid .sk-cube3 {
+//  -webkit-animation-delay: 0.4s;
+//          animation-delay: 0.4s; }
+//.sk-cube-grid .sk-cube4 {
+//  -webkit-animation-delay: 0.1s;
+//          animation-delay: 0.1s; }
+//.sk-cube-grid .sk-cube5 {
+//  -webkit-animation-delay: 0.2s;
+//          animation-delay: 0.2s; }
+//.sk-cube-grid .sk-cube6 {
+//  -webkit-animation-delay: 0.3s;
+//          animation-delay: 0.3s; }
+//.sk-cube-grid .sk-cube7 {
+//  -webkit-animation-delay: 0s;
+//          animation-delay: 0s; }
+//.sk-cube-grid .sk-cube8 {
+//  -webkit-animation-delay: 0.1s;
+//          animation-delay: 0.1s; }
+//.sk-cube-grid .sk-cube9 {
+//  -webkit-animation-delay: 0.2s;
+//          animation-delay: 0.2s; }
+//
+//@-webkit-keyframes sk-cubeGridScaleDelay {
+//  0%, 70%, 100% {
+//    -webkit-transform: scale3D(1, 1, 1);
+//            transform: scale3D(1, 1, 1);
+//  } 35% {
+//    -webkit-transform: scale3D(0, 0, 1);
+//            transform: scale3D(0, 0, 1);
+//  }
+//}
+//
+//@keyframes sk-cubeGridScaleDelay {
+//  0%, 70%, 100% {
+//    -webkit-transform: scale3D(1, 1, 1);
+//            transform: scale3D(1, 1, 1);
+//  } 35% {
+//    -webkit-transform: scale3D(0, 0, 1);
+//            transform: scale3D(0, 0, 1);
+//  }
+//}
+
+
+.footer-spenn {
+  background: darkcyan;
+  color: #d2d2d2;
+  padding: 20px 0 0;
+  margin-top: -1px;
+}
+.footer-widgets.row {
+  margin-bottom: 30px;
+}
+.footer .widget {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.footer .widget-title {
+  position: relative;
+  font-size: 18px;
+  font-weight: 400;
+  margin-top: 0;
+  padding-bottom: 20px;
+  margin-bottom: 26px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-spenn h1, .footer-spenn h2, .footer-spenn h3, .footer-spenn h4, .footer-spenn h5, .footer-spenn h6 {
+  color: #fff;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  color: #515151;
+  -webkit-font-smoothing: antialiased;
+}
+.footer-btm-bar {
+  background: darkcyan;
+  padding: 10px 0 10px;
+}
+.footer-spenn .footer-copyright {
+  text-align: center;
+}
+.footer-spenn p, .footer-spenn a {
+  color: #d2d2d2;
+}
+
+
+
+.footer-spenn a .soc-icon {
+  color: #464a4d;
+}
+.footer-spenn .soc-icon {
+  padding: 0 5px 10px 5px !important;
+}
+.soc-icon {
+  font-size: 32px;
+  margin: 0;
+  padding: 0 10px 10px 0 !important;
+}
+.social {
+  font-family: 'Glyphicons Social Regular';
+}
+.glyphicons, .halflings, .filetype, .social {
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+}
+.tr{
+  cursor:pointer;
+}
+
+#customerGrid tr
+{
+  cursor:pointer;
+}
+
+
+#sidebar.affix-top {
+  position: static;
+  margin-top:30px;
+  width:228px;
+}
+
+#sidebar.affix {
+  position: fixed;
+  top:70px;
+  width:228px;
+}
+
+.pointer-cursor {
+  cursor: pointer;
+}
+
+.panel-info > .panel-heading {
+  color: #31708f;
+  background-color: #3c8dbc;
+  border-color: #bce8f1;
+  color: #ffffff;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.my-10 {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.text-normal {
+  font-weight: 400 !important;
+}
+
+.field-required::after {
+  content: " *";
+  color: red;
+}

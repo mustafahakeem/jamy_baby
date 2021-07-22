@@ -1,0 +1,226 @@
+<div *ngIf="isValidUser">
+    <div>
+        <div class="row">
+            <div [ngBusy]="busy"></div>
+            <div
+                class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad">
+
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{agentDetail.Name}}'s Profile 
+                            <img style="padding-left: 15px" height="30px" src="/public/assets/img/agent.png" />
+                        </h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-3 " align="center">
+                                <img alt="User Pic" src="{{agentDetail.Picture}}" class="img-circle img-responsive">
+                            </div>
+
+                            <div class=" col-md-9 col-lg-9 ">
+                                <table class="table table-user-information">
+                                    <tbody>
+                                        <tr>
+                                            <td>Agent Number:</td>
+                                            <td><strong>{{agentDetail.AgentNumber}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>CustomerGUID:</td>
+                                            <td><a href="/customer-details/{{agentDetail.CustomerGuid}}">{{agentDetail.CustomerGuid}}</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Agent Name:</td>
+                                            <td>
+                                                <div>
+                                                    <span>{{agentDetail.Name}}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone:</td>
+                                            <td>{{agentDetail.Phone}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Country:</td>
+                                            <td>{{agentDetail.CountryName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Currency:</td>
+                                            <td>{{agentDetail.CurrencyIsoCode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bank Name:</td>
+                                            <td>{{agentDetail.BankName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Address:</td>
+                                            <td>{{agentDetail.Address}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reward Code:</td>
+                                            <td>{{agentDetail.RewardCode}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Agent Group:</td>
+                                            <td>{{agentDetail.AgentGroupName}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kyc Status:</td>
+                                            <td>
+                                                <span>
+                                                    {{agentDetail.KycStatus}}
+                                                </span>
+                                                <span *ngIf="customerGuid && isKycManager">
+                                                    <button type="button" class="btn btn-primary btn-sm ml-3 col-sm-offset-1"
+                                                        data-toggle="modal"
+                                                        data-target="#AdditionalKycFileModal">
+                                                        KYA files {{additionalKycFileCount}}
+                                                    </button>
+                                                    <app-additional-kyc-file
+                                                        [customerGuid]="agentDetail.CustomerGuid"
+                                                        [customerName]="agentDetail.Name"
+                                                        [customerType]=2
+                                                        [fileCount]="additionalKycFileCount"
+                                                        (isfileCountChange)="additionalKycFileCount = $event"></app-additional-kyc-file>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Last Login:</td>
+                                            <td>{{agentDetail.LastLogin | date: 'medium'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Create Date:</td>
+                                            <td>{{agentDetail.CreateDate | date: 'medium'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Kyc Tier:</td>
+                                            <td *ngIf="isSupervisor==0">{{agentDetail.KycTier }}</td>
+                                            <td *ngIf="isSupervisor==1" class="form-inline row">
+                                                <select [(ngModel)]="selectedKycTier" class="mr-3 form-control">
+                                                    <option value="">-- Select --</option>
+                                                    <option *ngFor="let kycTier of kycTierList"
+                                                        [value]="kycTier.KycTierId" [title]="kycTier.Description"
+                                                        [selected]="kycTier.KycTierName==agentDetail.KycTier">
+                                                        {{kycTier.KycTierName}}
+                                                    </option>
+                                                </select>
+                                                <span class="ml-3 btn btn-primary col-sm-offset-1"
+                                                    (click)="updateKycTier(selectedKycTier)">
+                                                    Update
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="PinResetRequest && PinResetRequest.CustomerPasswordResetStatus==4">
+                                            <td>
+                                                Approve Pin Reset Request
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-success btn-sm"
+                                                    (click)="approvePasswordResetRequest(PinResetRequest)"
+                                                    *ngIf="PinResetRequest && PinResetRequest.CustomerPasswordResetStatus==4">
+                                                    Approve <span class="glyphicon glyphicon-ban-right"></span>
+                                                </button>
+
+                                                <button type="button" class="btn btn-warning btn-sm"
+                                                    (click)="rejectPasswordResetRequest(PinResetRequest)"
+                                                    *ngIf="PinResetRequest && PinResetRequest.CustomerPasswordResetStatus==4">
+                                                    Reject <span class="glyphicon glyphicon-ban-right"></span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-heading" *ngIf="kycRequest && showKyc && (isSupervisor || isKycProcessor)">
+                        <div class="row" *ngIf="isSupervisor">
+                            <div class="col-md-4" style="font-size:20px">
+                                <p *ngIf="agentDetail.KycStatus == 'JamesVerified'">
+                                    Customer has been Approved.
+                                </p>
+                                <p *ngIf="agentDetail.KycStatus == 'Unverified'">
+                                    Customer has been Rejected.
+                                </p>
+                            </div>
+                            <div class="col-md-4">
+                                <button data-toggle="modal" data-target="#myModal"
+                                    *ngIf="agentDetail.KycStatus == 'JamesVerified' || agentDetail.KycStatus == 'Verified' || agentDetail.KycStatus === 'PendingProcessing'"
+                                    class="btn btn-warning">
+                                    Reject Customer
+                                </button>
+                                <button
+                                    *ngIf="agentDetail.KycStatus == 'Unverified' || agentDetail.KycStatus == 'Verified' || agentDetail.KycStatus === 'PendingProcessing'"
+                                    class="btn btn-success" (click)="jamesReview(true)">
+                                    Approve Customer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <a data-original-title="Email" data-toggle="tooltip" type="button"
+                            class="btn btn-sm btn-primary" href="mailto:{{agentDetail.Email}}">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                        </a>
+                        <button type="button" class="btn btn-success btn-sm pull-right" (click)="unLockCustomer()"
+                            *ngIf="agentDetail.CustomerStatus==0">
+                            Unlock <span class="glyphicon glyphicon-ok-circle"></span>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm pull-right" (click)="lockCustomer()"
+                            *ngIf="agentDetail.CustomerStatus==1">
+                            Lock <span class="glyphicon glyphicon-ban-circle"></span>
+                        </button>
+
+                    </div>
+                </div>
+
+                <app-customer-account-list #accountList *ngIf="customerGuid" [customerGuid]="customerGuid"
+                    [showTransactionList]="true">
+                </app-customer-account-list>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h5>Agent Sms</h5>
+        <button class="btn btn-primary" (click)="showSms()" *ngIf="!showSmsList">
+            Show Sms
+        </button>
+        <button class="btn btn-primary" (click)="showSms()" *ngIf="showSmsList">
+            Hide Sms
+        </button>
+        <!-- Button to Open the Modal -->
+        <button type="button" class="btn btn-primary" *ngIf="customerGuid" data-toggle="modal"
+            data-target="#SmsSendModal">
+            Send Sms
+        </button>
+        <br>
+        <br>
+        <sms-list #smsListComponenet *ngIf="showSmsList" [customerGuid]="customerGuid"></sms-list>
+        <app-send-sms *ngIf="customerGuid" [customerGuid]="customerGuid"></app-send-sms>
+        <app-bulk-unverify *ngIf="customerGuid && isKycManager" [rewardCode]="agentDetail.RewardCode"></app-bulk-unverify>
+    </div>
+    <div>
+        <h5>Agent Audit History</h5>
+        <button class="btn btn-primary" (click)="showAuditHistory=!showAuditHistory" *ngIf="!showAuditHistory">
+            Show
+            Audit History
+        </button>
+        <button class="btn btn-primary" (click)="showAuditHistory=!showAuditHistory" *ngIf="showAuditHistory">
+            Hide Audit
+            History
+        </button>
+        <br>
+        <br>
+        <app-audit-history #auditHistory *ngIf="showAuditHistory" [customerGuid]="customerGuid"></app-audit-history>
+    </div>
+</div>
+
+<div *ngIf="!isValidUser">
+    Wrong agent number.
+    <button (click)="router.navigate(['/agent/'])">Back</button>
+</div>

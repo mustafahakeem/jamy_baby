@@ -1,0 +1,113 @@
+<div *ngIf='dataGridConfig.filters.length > 0'>
+  <form (ngSubmit)="dataSearch(dataGridConfig.searchModel)" id="data-grid-form" style="padding: 20px;">
+    <div class="row">
+      <div *ngFor='let item of dataGridConfig.filters'>
+        <div *ngIf='item.searchable && !item.isNewRow' class="form-group col col-md-3 col-sm-7 col-xs-12">
+          <div>
+            <label for="{{item.name}}">{{item.title}}</label>
+          </div>
+          <div *ngIf='item.type=="text" || item.type=="number"' class="btn-group">
+            <input type="{{item.type}}" class="form-control" id="{{item.name}}"
+              [(ngModel)]="dataGridConfig.searchModel[item.name]" value="{{item.value}}" name="{{item.name}}"
+              [required]="item.isRequired">
+          </div>
+          <div *ngIf='item.type=="checkbox"'>
+            <input type="{{item.type}}" class="form-check-input" id="{{item.name}}" name="{{item.name}}"
+            [(ngModel)]="dataGridConfig.searchModel[item.name]" (change)="CheckChange(item.name,$event)">
+          </div>
+          <div *ngIf='item.type=="guid"' class="btn-group">
+            <input type="{{item.type}}" class="form-control" id="{{item.name}}" style="width: 250px; font-size: 12px"
+              [(ngModel)]="dataGridConfig.searchModel[item.name]" value="{{item.value}}" name="{{item.name}}"
+              [required]="item.isRequired"
+              pattern="^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$">
+          </div>
+          <div *ngIf='item.type=="date"'>
+            <input type="{{item.type}}" id="{{item.name}}" class="form-control"
+              [(ngModel)]="dataGridConfig.searchModel[item.name]" value="{{item.value}}" name="{{item.name}}"
+              [required]="item.isRequired">
+          </div>
+          <div *ngIf='item.type=="select"'>
+            <select class="form-control" id="{{item.name}}" [(ngModel)]="dataGridConfig.searchModel[item.name]"
+              name="{{item.name}}" [required]="item.isRequired">
+              <option value=""> -- select an option -- </option>
+              <option *ngFor="let option of item.options" [value]="option[item.optionValue]">
+                {{option[item.optionLabel]}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngFor='let item of dataGridConfig.filters'>
+        <div class="form-group col col-md-3 col-sm-7 col-xs-12" *ngIf="item.isNewRow">
+          <div>
+            <label for="{{item.name}}">{{item.title}}</label>
+          </div>
+          <div *ngIf='item.type=="text" || item.type=="number"'>
+            <input type="{{item.type}}" class="form-control" id="{{item.name}}"
+              [(ngModel)]="dataGridConfig.searchModel[item.name]" value="{{item.value}}" name="{{item.name}}"
+              [required]="item.isRequired">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-xs-6">
+        <button type="submit" class="btn btn-sm btn-primary" [disabled]="false">Search</button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="panel panel-info panel-heading">
+  <h3 class="panel-title">Search Results</h3>
+  <div style="margin: auto; margin-bottom: 50px;">
+    <data-table-extended id="{{dataGridConfig.gridId}}" #genericDataGrid [items]="dataGridConfig.items"
+      [itemCount]="dataGridConfig.itemCount" (reload)="reloadItems($event,true)" [limit]="dataGridConfig.limit"
+      [offset]="dataGridConfig.offset" [sortBy]="dataGridConfig.sortBy" (refresh)="refreshButtonClicked($event,true)"
+      [sortAsc]="dataGridConfig.sortAsc" (rowClick)="dataGridConfig.rowClick($event)"
+      (rowDoubleClick)="dataGridConfig.rowDoubleClick($event)" [rowTooltip]="dataGridConfig.rowTooltip"
+      [showReloading]="dataGridConfig.showReloading" [autoReload]="false" [indexColumn]="dataGridConfig.indexColumn"
+      [multiSelect]="false" [selectOnRowClick]="true" [substituteRows]="false">
+      <!--<ng-content></ng-content>-->
+      <div *ngFor='let column of dataGridConfig.columns'>
+        <data-table-column [property]="column.data" [header]="column.title" [sortable]="column.sortable"
+          [resizable]="column.resizable" [visible]="!column.hide">
+          <ng-template *ngIf='column.type == "date"' #dataTableCell let-item="item">
+            <span>{{item[column.data] | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+          </ng-template>
+          <ng-template *ngIf='column.type == "shortdate"' #dataTableCell let-item="item">
+            <span>{{item[column.data] | date:'yyyy-MM-dd'}}</span>
+          </ng-template>
+          <ng-template *ngIf='column.type == "html"' #dataTableCell let-item="item">
+            <!--<div [innerHTML]="item[column.data]"></div>-->
+            <div [innerHTML]="item[column.htmlElement]"></div>
+          </ng-template>
+          <ng-template *ngIf='column.type == "click"' #dataTableCell let-item="item">
+            <span><a href="javascript:void(0)" (click)="column.clickfn(item)">{{item[column.data]}}</a></span>
+          </ng-template>
+          <ng-template *ngIf='column.nowrap == true' #dataTableCell let-item="item">
+            <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; ">{{item[column.data]}}</div>
+          </ng-template>
+          <!--<ng-template *ngIf='column.type == "conditional"' #dataTableCell let-item="item">-->
+          <!--<span style="color: red" *ngIf="item[column.data]=='Locked'">{{item[column.data]}}</span>-->
+          <!--<span style="color: green" *ngIf="item[column.data]!='Locked'">{{item[column.data]}}</span>-->
+          <!--</ng-template>-->
+        </data-table-column>
+      </div>
+
+    <data-table-column *ngIf='dataGridConfig.buttonName' header="Actions">
+      <ng-template #dataTableHeader let-item="item">
+        <!--<i>Details</i>-->
+      </ng-template>
+      <ng-template #dataTableCell let-item="item">
+        <button *ngIf="!item.HideButton" (click)="dataGridConfig.buttonClick(item)" class="btn btn-sm btn-default">{{dataGridConfig.buttonName}}
+        </button>
+        <img *ngIf="item.IsBusiness" alt="true" height="35px" src="/public/assets/img/spennbusiness256px.png" />
+        <img *ngIf="item.CustomerType==2" alt="true" height="35px" src="/public/assets/img/agent.png" />
+      </ng-template>
+    </data-table-column>
+
+    </data-table-extended>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Available Form Models</h3>
+  </div>
+  <div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-md-12">
+    <div [ngBusy]="busyTransaction"></div>
+    <data-grid #formModelGrid [dataGridConfig]="dataGridConfig"></data-grid>
+  </div>
+</div>

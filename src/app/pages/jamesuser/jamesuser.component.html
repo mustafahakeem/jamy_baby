@@ -1,0 +1,8 @@
+<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-md-12">
+	<div [ngBusy]="busy">
+		<h4>James User Search</h4>
+	</div>
+	<div *ngIf="showGrid" id="users" class="row">
+		<data-grid #userGrid [dataGridConfig]="dataGridConfig"></data-grid>
+	</div>
+</div>

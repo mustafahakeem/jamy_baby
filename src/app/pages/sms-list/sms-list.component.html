@@ -1,0 +1,9 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Sms list for customer</h3>
+  </div>
+  <div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-md-12">
+    <div [ngBusy]="busyTransaction"></div>
+    <data-grid #smsGrid [dataGridConfig]="dataGridConfig"></data-grid>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div *ngIf='gridConfig.enableFilter'>
+  <form (ngSubmit)="gridConfig.search(gridConfig.searchModel)" id="generic-grid-form" >
+    <div class="row">
+      <div *ngFor='let item of gridConfig.filters'>
+        <div *ngIf='item.searchable' class="form-group col col-md-3 col-sm-6 col-xs-12">
+          <label for="{{item.name}}">{{item.title}}</label>
+          <div *ngIf='item.type=="text" || item.type=="number"'>
+            <input  type="{{item.type}}" class="form-control" id="{{item.name}}" [(ngModel)]="gridConfig.searchModel[item.name]"
+                    value="{{item.value}}" name="{{item.name}}" [required]="item.isRequired">
+          </div>
+          <div *ngIf='item.type=="guid"'>
+            <input  type="{{item.type}}" class="form-control" id="{{item.name}}" [(ngModel)]="gridConfig.searchModel[item.name]"
+                    value="{{item.value}}" name="{{item.name}}" [required]="item.isRequired"
+                    pattern="^(\{{0,1}([0-9a-fA-F]){8}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){4}-([0-9a-fA-F]){12}\}{0,1})$" title="Guid Value">
+          </div>
+          <div *ngIf='item.type=="date"'>
+            <input  type="{{item.type}}" id="{{item.name}}" class="form-control" [(ngModel)]="gridConfig.searchModel[item.name]"
+                    value="{{item.value}}" name="{{item.name}}" [required]="item.isRequired">
+          </div>
+          <div *ngIf='item.type=="select"'>
+            <select class="form-control" id="{{item.name}}" [(ngModel)]="gridConfig.searchModel[item.name]"
+                    name="{{item.name}}" [required]="item.isRequired">
+              <option value=""> -- select an option -- </option>
+              <option *ngFor="let option of item.options" [value]="option[item.optionValue]">
+                {{option[item.optionLabel]}}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col col-xs-6">
+        <button type="submit" class="btn btn-sm btn-primary" [disabled]="false">Search</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+<br>
+
+<!--<data-table  id="generic-grid" [dtOptions]="dtOptions" cellspacing="0"-->
+       <!--class="display row-border hover table table-bordered table-condensed" style="padding:2px"></data-table>-->
+
+

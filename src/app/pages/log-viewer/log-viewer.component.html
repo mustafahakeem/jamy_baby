@@ -1,0 +1,75 @@
+<style>
+  tr td:first-child {
+    font-size: 13px;
+    font-weight: bold;
+
+  }
+  .pre-class {
+    border: 0px solid #ccc;
+    border-radius: 2px;
+  }
+</style>
+<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-md-12">
+  <div [ngBusy]="busy"></div>
+  <div id="logViewerGrid" class="row">
+    <data-grid #logViewerGrid [dataGridConfig]="dataGridConfig"></data-grid>
+  </div>
+
+  <div id="details" *ngIf="loggerView.Id" style="padding-top: 20px">
+    <div [ngBusy]="busyDetail"></div>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title">Log Detail</h3>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-12 col-lg-12 col-sm-12" align="center">
+            <div class="table-responsive">
+              <table class="table table-user-information">
+                <tbody>
+                  <tr>
+                    <td>Id:</td>
+                    <td>{{loggerView.Id}}</td>
+                  </tr>
+                  <tr>
+                    <td>Date:</td>
+                    <td>{{loggerView.Date}}</td>
+                  </tr>
+                  <tr>
+                    <td>Logger:</td>
+                    <td>{{loggerView.Logger}}</td>
+                  </tr>
+                  <tr>
+                    <td>Message:</td>
+                    <td>
+                      <pre class="pre-class">{{loggerView.Message}}</pre>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Exception:</td>
+                    <td>
+                      {{loggerView.Exception}}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Stack Trace:</td>
+                    <td>{{loggerView.StackTrace}}</td>
+                  </tr>
+                  <tr>
+                    <td>Status:</td>
+                    <td>{{loggerView.Status}}</td>
+                  </tr>
+                  <tr>
+                    <td>WorkItem:</td>
+                    <td>{{loggerView.WorkItem}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<div class="panel panel-info">
+  <div class="panel-heading">
+    <h3 class="panel-title">Transaction List for {{customerAccount.AccountType}} {{customerAccount.Currency}} account</h3>
+  </div>
+  <div [ngBusy]="busyTransaction"></div>
+  <data-grid #transactionGrid [dataGridConfig]="dataGridConfig"></data-grid>
+</div>
+<app-transaction-info [modalId]="modalId" [transactionInfoDetails]="transactionInfo"></app-transaction-info>

@@ -1,0 +1,30 @@
+<!-- Menu toggle button -->
+<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+	<i class="fa fa-envelope-o"></i>
+	<span class="label label-success" [innerHTML]="messages.length"></span>
+</a>
+<ul class="dropdown-menu">
+	<li class="header">{{ 'MSGBOX.COUNT' | translate:msgLength }}</li>
+	<!--<li class="header">{{ 'MSGBOX.COUNT' | translate:msgLength }}</li>-->
+	<!--<li>-->
+		<!--&lt;!&ndash; inner menu: contains the messages &ndash;&gt;-->
+		<!--<ul class="menu">-->
+			<!--<li *ngFor="let msg of messages; let i = index">-->
+				<!--&lt;!&ndash; start message &ndash;&gt; <a href="#">-->
+					<!--<div class="pull-left">-->
+						<!--&lt;!&ndash; User Image &ndash;&gt;-->
+						<!--<img src="{{msg.author.avatarUrl}}" class="img-circle"-->
+							<!--alt="{{ msg.author.getName() }}">-->
+					<!--</div> &lt;!&ndash; Message title and timestamp &ndash;&gt;-->
+					<!--<h4>-->
+						<!--{{msg.title}} <small><i class="fa fa-clock-o"></i>-->
+							<!--{{msg.date}}</small>-->
+					<!--</h4> &lt;!&ndash; The message &ndash;&gt;-->
+					<!--<p>{{msg.content}}</p>-->
+			<!--</a>-->
+			<!--</li>-->
+			<!--&lt;!&ndash; end message &ndash;&gt;-->
+		<!--</ul> &lt;!&ndash; /.menu &ndash;&gt;-->
+	<!--</li>-->
+	<!--<li class="footer"><a href="#">{{ 'MSGBOX.FOOTER' | translate}}</a></li>-->
+</ul>

@@ -1,0 +1,41 @@
+<aside class="main-sidebar" style="position: fixed;height: 100%;">
+		<section class="sidebar">
+			<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="user-panel">
+				<div class="pull-left image">
+					<img [src]="auth.getUserPicture()" class="img-circle" [alt]="auth.getUserName()">
+				</div>
+				<div class="pull-left info">
+					<p>{{auth.getUserName()}}</p>
+				</div>
+			</div>
+			<ul *ngIf="(auth.isAuthenticatedAsync()|async) && auth.isVerified()" class="sidebar-menu" data-widget="tree">
+				<li  *ngFor="let item of links" (click)="onElemClick(item)" [class.active]="item.isActive"
+					[class.treeview]="item.sublinks" [class.menu-open]="item.isActive && item.sublinks">
+					<a [appHideIfUnauthorized]="item.permission"  [routerLink]="item.link" *ngIf="!item.sublinks && !item.external">
+						<i class="fa fa-{{item.icon}}"></i>
+						<span>{{item.title}}</span>
+					</a>
+	
+					<a  [appHideIfUnauthorized]="item.permission"  [href]="item.link" *ngIf="!item.sublinks && item.external">
+						<i class="fa fa-{{item.icon}}"></i>
+						<span>{{item.title}}</span>
+					</a>
+	
+					<a  href="#" *ngIf="item.sublinks" [appHideIfUnauthorized]="item.permission">
+						<i class="fa fa-{{item.icon}}"></i>
+						<span>{{item.title}}</span>
+						<i *ngIf="!item.isActive" class="fa fa-angle-left pull-right"></i>
+						<i *ngIf="item.isActive" class="fa fa-angle-down pull-right"></i>
+					</a>
+					<ul  class="treeview-menu-custom" *ngIf="item.sublinks && item.isActive">
+						<li *ngFor="let sublink of item.sublinks" (click)="onElemClick(sublink)" 
+							[class.active-inner]="sublink.isActive" [appHideIfUnauthorized]="sublink.permission">
+							<a [routerLink]="sublink.link">
+								<span>{{sublink.title}}</span>
+							</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+	</aside>

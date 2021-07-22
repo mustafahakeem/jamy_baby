@@ -1,0 +1,132 @@
+<table class="table table-user-information">
+  <tbody>
+    <tr *ngIf="kycRequest.AddressLine1 && kycRequest.AddressLine1.length>0">
+      <td>Address Line 1:</td>
+      <td>{{kycRequest.AddressLine1}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.AddressLine2 && kycRequest.AddressLine2.length>0">
+      <td>Address Line 2:</td>
+      <td>{{kycRequest.AddressLine2}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.City && kycRequest.City.length>0">
+      <td>City:</td>
+      <td>{{kycRequest.City}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.Country && kycRequest.Country.length>0">
+      <td>Country:</td>
+      <td>{{kycRequest.Country}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.DateOfBirth">
+      <td>Date of Birth:</td>
+      <td>{{kycRequest.DateOfBirth | date : 'mediumDate'}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.Gender && kycRequest.Gender.length>0">
+      <td>Gender:</td>
+      <td>{{kycRequest.Gender}}</td>
+    </tr>
+
+    <tr *ngIf="kycRequest.IdNumber && kycRequest.IdNumber.length>0">
+      <td>Id Number:</td>
+      <td>{{kycRequest.IdNumber}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.IdType && kycRequest.IdType.length>0">
+      <td>Id Type:</td>
+      <td>{{kycRequest.IdType}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.TypeOfIdCard && kycRequest.TypeOfIdCard.length>0">
+      <td>Type Of Id Card:</td>
+      <td>{{kycRequest.TypeOfIdCard}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.IdValidFrom">
+      <td>Id Valid From:</td>
+      <td>{{kycRequest.IdValidFrom | date : 'mediumDate'}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.IdValidTo">
+      <td>Id Valid To:</td>
+      <td>{{kycRequest.IdValidTo | date : 'mediumDate'}}</td>
+    </tr>
+
+    <tr *ngIf="kycRequest.Nationality && kycRequest.Nationality.length>0">
+      <td>Nationality:</td>
+      <td>{{kycRequest.Nationality}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.Occupation && kycRequest.Occupation.length>0">
+      <td>Occupation:</td>
+      <td>{{kycRequest.Occupation}}</td>
+    </tr>
+    <tr *ngIf="kycRequest.Zip && kycRequest.Zip.length>0">
+      <td>Zip:</td>
+      <td>{{kycRequest.Zip}}</td>
+    </tr>
+
+    <!-- Here img id is used for swap feature to identify selected image properties -->
+    <tr *ngIf="kycRequest.IdCardOrPassport && kycRequest.IdCardOrPassport.length>0">
+      <td>IdCard Or Passport Photo: </td>
+      <td>
+        <div class="image-box" (drop)="drop($event)" (dragover)="allowDrop($event)">
+          <img id="IdCardOrPassport" src={{kycRequest.IdCardOrPassport+kycRequest.IdCardOrPassportSas}} alt="_blank"
+            draggable="true" (dragstart)="drag($event)" class="kyc-image" data-toggle="modal"
+            data-target="#idCardOrPassport">
+        </div>
+      </td>
+
+    </tr>
+
+    <tr *ngIf="kycRequest.BackofIdCard && kycRequest.BackofIdCard.length>0">
+      <td>Back of Id Card:</td>
+      <td>
+        <div class="image-box" (drop)="drop($event)" (dragover)="allowDrop($event)">
+          <img id="BackofIdCard" src={{kycRequest.BackofIdCard+kycRequest.BackofIdCardSas}} alt="_blank"
+            draggable="true" (dragstart)="drag($event)" class="kyc-image" data-toggle="modal"
+            data-target="#backofIdCard">
+        </div>
+      </td>
+    </tr>
+
+    <tr *ngIf="kycRequest.ProofOfAddress && kycRequest.ProofOfAddress.length>0">
+      <td>Proof Of Address:</td>
+      <td>
+        <div class="image-box" (drop)="drop($event)" (dragover)="allowDrop($event)">
+          <img id="ProofOfAddress" src={{kycRequest.ProofOfAddress+kycRequest.ProofOfAddressSas}} alt="_blank"
+            draggable="true" (dragstart)="drag($event)" class="kyc-image" data-toggle="modal"
+            data-target="#proofOfAddress">
+        </div>
+      </td>
+    </tr>
+    <tr *ngIf="kycRequest.SelfieWithIdPaper && kycRequest.SelfieWithIdPaper.length>0">
+      <td>Selfie With IdPaper:</td>
+      <td>
+        <div class="image-box" (drop)="drop($event)" (dragover)="allowDrop($event)">
+          <img id="SelfieWithIdPaper" src={{kycRequest.SelfieWithIdPaper+kycRequest.SelfieWithIdPaperSas}} alt="_blank"
+            draggable="true" (dragstart)="drag($event)" class="kyc-image" data-toggle="modal"
+            data-target="#selfieWithIdPaper">
+        </div>
+      </td>
+    </tr>
+    <tr *ngIf="kycRequest.IsEscalated" class="text-danger">
+      <td>Escalated: </td>
+      <td><input type="checkbox" [(ngModel)]="kycRequest.IsEscalated" onclick="return false;" class="form-check-input">
+       Reason: {{kycRequest.EscalationReason}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<app-image-modal *ngIf="kycRequest.SelfieWithIdPaper && kycRequest.SelfieWithIdPaper.length>0"
+  modalId="selfieWithIdPaper" [kycRequest]="kycImages"
+  imageUrl="{{kycRequest.SelfieWithIdPaper+kycRequest.SelfieWithIdPaperSas}}"
+  header="{{'Id Number : ' + kycRequest.IdNumber}}"></app-image-modal>
+
+<app-image-modal *ngIf="kycRequest.ProofOfAddress && kycRequest.ProofOfAddress.length>0" modalId="proofOfAddress"
+  [kycRequest]="kycImages" imageUrl="{{kycRequest.ProofOfAddress+kycRequest.ProofOfAddressSas}}"
+  header="{{'Address line 1: ' +kycRequest.AddressLine1 + ',\n Address line 2: ' + kycRequest.AddressLine2}}">
+</app-image-modal>
+
+
+<app-image-modal *ngIf="kycRequest.BackofIdCard && kycRequest.BackofIdCard.length>0" modalId="backofIdCard"
+  [kycRequest]="kycImages" imageUrl="{{kycRequest.BackofIdCard+kycRequest.BackofIdCardSas}}"
+  header="{{'Id Number : ' + kycRequest.IdNumber}}"></app-image-modal>
+
+<app-image-modal *ngIf="kycRequest.IdCardOrPassport && kycRequest.IdCardOrPassport.length>0" modalId="idCardOrPassport"
+  [kycRequest]="kycImages" imageUrl="{{kycRequest.IdCardOrPassport+kycRequest.IdCardOrPassportSas}}"
+  header="{{'Id Number : ' + kycRequest.IdNumber}}"></app-image-modal>

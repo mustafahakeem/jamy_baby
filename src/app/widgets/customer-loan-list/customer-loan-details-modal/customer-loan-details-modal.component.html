@@ -1,0 +1,85 @@
+<!-- Customer Loan Details modal popup -->
+<dialog id="{{modalId}}" class="modal-dialog modal-md modal-dialog-position">
+<div class="padding-01">
+  <div class="row row-heading-bg">
+    <div class="col-md-10">
+      <h4 class="row-heading-text">
+        Loan Details
+      </h4>
+    </div>
+    <div class="col-md-2">
+      <p (click)="closeMyDialog()" class="close close-button-css" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div
+      class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad">
+      <div class="panel panel-info">
+        <div class="panel-body">
+          <div class="row">
+            <div *ngIf="command" class="col-sm-12">
+              <table class="table table-user-information">
+                <tbody>
+                  <tr>
+                    <td>Open Date</td>
+                    <td>{{command.OpenDate | date: 'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Free Until Date</td>
+                    <td>{{command.FreeUntilDate | date: 'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Due Date</td>
+                    <td>{{command.DueDate | date: 'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Close Date</td>
+                    <td>{{command.CloseDate | date: 'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <td>Refinance Count</td>
+                    <td>{{command.RefinanceCount}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div *ngIf="command" class="col-sm-12">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Loan Transactions
+                    </h3>
+                  </div>
+                  <table class="table table-condensed table-bordered data-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>TransactionType</th>
+                        <th>Currency</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of command.LoanTransactions">
+                        <td>{{item.TransactionDate | date:'medium'}}</td>
+                        <td>{{item.LoanTransactionType.Name}}</td>
+                        <td>{{item.Currency}}</td>
+                        <td>{{item.Amount}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- <div class="row">
+      <button class="btn btn-success btn-md" style="float:right; margin-right: 15px;" (click)="closeMyDialog()">Close</button>
+  </div> -->
+</dialog>

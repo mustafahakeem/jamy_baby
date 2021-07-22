@@ -1,0 +1,130 @@
+<!-- The Modal -->
+<div class="manual-kyc">
+  <div class="modal fade" id="ManualKycModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div [ngBusy]="busyManualKycChange"></div>
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <button
+            type="button"
+            class="close"
+            style="color: #fff; opacity: 1"
+            (click)="hideManualKycModal()"
+          >
+            &times;
+          </button>
+          <h4 class="modal-title">Manual KYC Change</h4>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body" style="padding-top: 1px;padding-bottom: 0px;">
+          <div
+            class="confirm-message"
+            *ngIf="this.manualKycVerificationStep === 2"
+          >
+            Are you sure all criteria are correct to change this customers KYC
+            Status?
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-body">
+              <form *ngIf="this.manualKycVerificationStep === 1">
+                <div class="form-group" aria-required="true">
+                  <label for="selectedKycStatusId">KYC Status</label>
+                  <select
+                    class="form-control"
+                    id="selectedKycStatusId"
+                    name="selectedKycStatus"
+                    [(ngModel)]="selectedKycStatus"
+                    required
+                    (ngModelChange)="onChnage()"
+                    [value]="0"
+                  >
+                    <option value="0">-- Select --</option>
+                    <option *ngIf="kycStatus !== 'JamesVerified'" value="1">
+                      JamesVerified
+                    </option>
+                    <option *ngIf="kycStatus !== 'Unverified'" value="2">
+                      Unverified
+                    </option>
+                  </select>
+                  <div
+                    [hidden]="!!!errorBag.selectedKycStatusError"
+                    class="error-alert"
+                  >
+                    {{ errorBag.selectedKycStatusError }}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="reason">Reason</label>
+                  <textarea
+                    id="reason"
+                    name="Reason"
+                    class="form-control"
+                    rows="2"
+                    required
+                    [(ngModel)]="reason"
+                    (ngModelChange)="onChnage()"
+                  ></textarea>
+                  <div [hidden]="!!!errorBag.reasonError" class="error-alert">
+                    {{ errorBag.reasonError }}
+                  </div>
+                </div>
+              </form>
+              <table
+                class="table table-user-information"
+                *ngIf="this.manualKycVerificationStep === 2"
+              >
+                <tbody>
+                  <tr>
+                    <td class="td-header">KYC Status</td>
+                    <td>{{ kycStatuses[selectedKycStatus] }}</td>
+                  </tr>
+                  <tr>
+                    <td class="td-header">Reason</td>
+                    <td>{{ reason }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            *ngIf="this.manualKycVerificationStep === 1"
+            type="button"
+            class="btn btn-primary"
+            (click)="onProceed()"
+          >
+            Update
+          </button>
+          <button
+            *ngIf="this.manualKycVerificationStep === 2"
+            type="button"
+            class="btn btn-primary"
+            (click)="onBack()"
+          >
+            Back
+          </button>
+          <button
+            *ngIf="this.manualKycVerificationStep === 2"
+            type="button"
+            class="btn btn-success"
+            (click)="onUpdate()"
+          >
+            Update
+          </button>
+          <button
+            *ngIf="this.manualKycVerificationStep === 2"
+            type="button"
+            class="btn btn-danger"
+            (click)="onCancel()"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

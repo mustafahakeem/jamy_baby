@@ -1,0 +1,111 @@
+<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-12">
+    <div [ngBusy]="busy"></div>
+    <div class="col-12">
+            <h1 class="text-center">Agent Registration</h1>
+        <div class="agent-registration-wrapper col-md-8 col-12 col-md-offset-2">
+            <div class="alert alert-success" *ngIf="agentCreated">
+                <p>Agent Created with AgentNumber: <strong>{{agentNumber}}</strong></p>
+            </div>  
+            <form (ngSubmit)="onSubmit()" action="">
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label field-required">First Name</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="agent.FirstName" id="agentFirstName" name="firstName" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Middle Name</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="agent.MiddleName" id="agentMiddleName" name="middleName">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label field-required">Last Name</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="agent.LastName" id="agentLastName" name="lastName" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label field-required">Agent Name</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="agent.AgentName" id="agentName" name="agentName" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label field-required">Phone Number</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="agent.PhoneNumber" id="phoneNumber" name="phoneNumber" required>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label field-required">Country</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="countryId" [(ngModel)]="agent.CountryId" #countryId="ngModel" (ngModelChange)="countryChange(agent.CountryId)" name="countryId" required>
+                            <option [selected]="true" value="0">-- Select --</option>
+                            <option *ngFor="let country of countries" [value]="country.CountryId">{{country.Name}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label field-required">Currency</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="currencyId" [(ngModel)]="agent.CurrencyId" #currencyId="ngModel" (ngModelChange)="currencyChange(agent.CurrencyId)" name="currencyId" required>
+                            <option [selected]="true" value="0">-- Select --</option>
+                            <option *ngFor="let currency of currencies" [value]="currency.CurrencyId">{{currency.Ccy}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label field-required">Bank</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="bank" [(ngModel)]="agent.BankId" name="bankId" required>
+                            <option value="0" selected>-- Select --</option>
+                            <option *ngFor="let bank of banks" [value]="bank.BankId">{{bank.Name}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label field-required">Kyc Tier</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="kyctier" [(ngModel)]="agent.KycTierId" name="kycTierId" value="0" required>
+                            <option value="0" selected>-- Select --</option>
+                            <option *ngFor="let kycTier of kycTierList" [value]="kycTier.KycTierId">{{kycTier.KycTierName}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Agent Group</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="agentGroup" [(ngModel)]="agent.AgentGroupId" name="agentGroupId" value="null">
+                            <option value="0" selected>-- Select --</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Address</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="agent.Address" id="address" name="address">
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-8 col-md-offset-4">
+                        <button type="submit" class="form-control btn btn-primary">Register Agent</button>
+                    </div>                
+                </div>
+                    
+            </form>
+        </div>
+
+    </div>
+</div>

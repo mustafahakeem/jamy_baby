@@ -1,0 +1,53 @@
+<dialog id="{{modalId}}" class="modal-dialog modal-md" style="border: 1px solid rgba(0, 0, 0, 0.2);">
+  <div class="row" style="background-color: #293838;margin-top: -15px;">
+      <div class="col-md-10"></div>
+  </div>
+  <div class="row" style="background-color: #293838;text-align: center;">
+      <div class="col-md-10">
+          <h4 style="color: white;
+          margin-top: 10px;text-align: left;">
+              {{lookup.transactionType.name}} Transaction
+          </h4>
+      </div>
+      <div class="col-md-2">
+          <p (click)="closeMyDialog()" class="close" style="
+          margin-top: 5px;
+          color: #fff;
+          opacity: 1;" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+      </p>
+      </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 col-md-offset-0 col-lg-offset-0 toppad">
+      <div class="panel panel-info">
+        <div class="panel-body">
+          <table class="table table-user-information">
+            <tbody>
+              <tr>
+                <td>Sender Name</td>
+                <td>{{lookup.senderWallet.Name}}</td>
+              </tr>
+              <tr>
+                <td>Receiver Type</td>
+                <td>{{command.receiverManagementWalletGuid===null?"customer":"wallet"}}</td>
+              </tr>
+              <tr>
+                <td>Receiver Name</td>
+                <td>{{lookup.receiverName}}</td>
+              </tr>
+              <tr>
+                <td>Amount: </td>
+                <td>{{command.amount}}  {{lookup.currency.Ccy}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+      <button class="btn btn-success btn-md" style="float:right; margin-right: 15px;"
+          (click)="onConfirmation()">Confirm</button>
+  </div>
+</dialog>

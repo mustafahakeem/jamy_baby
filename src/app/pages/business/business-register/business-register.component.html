@@ -1,0 +1,71 @@
+<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-12">
+    <div [ngBusy]="busy"></div>
+    <div class="col-12">
+            <h1 class="text-center">Spenn Business Registration</h1>
+        <div class="business-registration-wrapper col-md-8 col-12 col-md-offset-2">        
+            <form (ngSubmit)="onSubmit()" action="">
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Business Name</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="business.Name" id="businessName" name="name" required>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Phone Number</label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" [(ngModel)]="business.PhoneNumber" id="phoneNumber" name="phoneNumber" required>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Country</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="countryId" [(ngModel)]="business.CountryId" #countryId="ngModel" (ngModelChange)="countryChange(business.CountryId)" name="countryId" required>
+                            <option [selected]="true" value="0">-- Select --</option>
+                            <option *ngFor="let country of countries" [value]="country.CountryId">{{country.Name}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Currency</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="currencyId" [(ngModel)]="business.CurrencyId" #currencyId="ngModel" (ngModelChange)="currencyChange(business.CurrencyId)" name="currencyId" required>
+                            <option [selected]="true" value="0">-- Select --</option>
+                            <option *ngFor="let currency of currencies" [value]="currency.CurrencyId">{{currency.Ccy}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Bank</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="bank" [(ngModel)]="business.BankId" name="bankId" required>
+                            <option value="0" selected>-- Select --</option>
+                            <option *ngFor="let bank of banks" [value]="bank.BankId">{{bank.Name}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <label for="name" class="col-md-4 col-form-label">Kyc Tier</label>
+                    <div class="col-md-8">
+                        <select class="form-control" id="kyctier" [(ngModel)]="business.KycTierId" name="kycTierId" value="0" required>
+                            <option value="0" selected>-- Select --</option>
+                            <option *ngFor="let kycTier of kycTierList" [value]="kycTier.KycTierId">{{kycTier.KycTierName}}</option>
+                        </select>
+                    </div>                
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-8 col-md-offset-4">
+                        <button type="submit" class="form-control btn btn-primary">Register</button>
+                    </div>                
+                </div>
+                    
+            </form>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,55 @@
+<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-md-12">
+  <div [ngBusy]="busy"></div>
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-center">Form Recognizer Models</h1>
+      <div class="model-info-wrapper col-md-6 col-md-offset-2">
+        <form (ngSubmit)="onSubmit()" action="">
+
+          <div class="form-group row">
+            <label for="countryId" class="col-md-4 col-form-label">Country</label>
+            <div class="col-md-8">
+              <select class="form-control" id="countryId" [(ngModel)]="modelInfo.CountryId" #countryId="ngModel"
+                name="countryId" required="required">
+                <option [selected]="true" value="0">-- Select --</option>
+                <option *ngFor="let country of countries" [value]="country.CountryId">{{country.Name}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="idCard" class="col-md-4 col-form-label">Id Card</label>
+            <div class="col-md-8">
+              <select class="form-control" id="idCard" [(ngModel)]="modelInfo.IdCard" #idCard="ngModel" name="idCard"
+                required="required">
+                <option [selected]="true" value="0">-- Select --</option>
+                <option *ngFor="let idCard of idCards" [value]="idCard.Value">{{idCard.Name}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="modelId" class="col-md-4 col-form-label">Model Id</label>
+            <div class="col-md-8">
+              <input type="text" class="form-control" [(ngModel)]="modelInfo.ModelId" id="modelId" name="modelId"
+                required="required">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-md-8 col-md-offset-4">
+              <button type="submit" class="form-control btn btn-primary">Add/Update Model Information</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <app-form-model-list [updateChild]="updateChild"></app-form-model-list>
+    </div>
+  </div>
+
+</div>

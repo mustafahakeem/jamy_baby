@@ -1,0 +1,41 @@
+<div [ngBusy]="busy"></div>
+<form (ngSubmit)="onSubmit()" action="">
+    <div class="col-md-6 panel panel-info">
+        <div class="panel-heading">
+            <h1 class="text-center panel-title">James User</h1>
+        </div>
+        <div class="panel-body business-add-user-wrapper" *ngIf="userdetails!=null">
+            <div class="form-group row">
+                <b>User Guid:</b> {{userdetails.UserPermissionDto.Id}}
+            </div>
+            <div class="form-group row">
+                <b>Email:</b> {{userdetails.UserPermissionDto.UserName}}
+            </div>
+            <div class="form-group row">
+                <b>Name:</b> {{userdetails.UserPermissionDto.FirstName}} {{userdetails.UserPermissionDto.LastName}}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 panel panel-info">
+        <div class="panel-heading">
+            <h1 class="text-center panel-title">Permissions</h1>
+        </div>
+        <div class="panel-body business-add-user-wrapper" *ngIf="userdetails!=null">
+            <div class="form-group row">
+                <div *ngFor="let permission of userdetails.PermissionGroupViews; let i = index;trackBy:trackByIdx">
+                    <div class="col-md-6">
+                        <ui-switch [(ngModel)]="permission.Checked" name="permissionGroup-{{i}}" size="small">
+                        </ui-switch>
+                        <label class="col-form-label text-normal">{{permission.GroupName}}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row" style="margin-top:3em">
+                <div class="col-md-4 col-md-offset-4">
+                    <button type="submit" class="form-control btn btn-primary">Update Permission</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,47 @@
+<!-- The Modal -->
+<div class="modal" id="{{modalId}}" tabindex="-1">
+  <div class="modal-dialog" style="width: 60% !important;">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h4 class="modal-title">{{header}}</h4>
+          </div>
+          <div class="col-md-3">
+            <!-- add previous and next button for image switch -->
+            <div *ngIf="kycRequest && kycRequest.length>0">
+              <button (click)="changeImage(-1);" class="btn btn-default" [disabled]="imageIndex==0">
+                <span></span> <i class="glyphicon glyphicon-chevron-left"></i>
+              </button>
+              <button (click)="changeImage(1);" class="btn btn-default" [disabled]="kycRequest.length==imageIndex+1">
+                <span></span> <i class="glyphicon glyphicon-chevron-right"></i>
+              </button>
+            </div>
+            <!-- !add previous and next button for image switch -->
+            <button (click)="rotateImage()" class="btn btn-default">
+              <span>Rotate</span> <i class="glyphicon glyphicon-repeat"></i>
+            </button>            
+            <button (click)="closeMyModal()" type="button" class="close" data-dismiss="modal"><span
+                aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          </div>
+        </div>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="row">
+          <div>
+            <img class="img-fluid" src={{imageUrl}} [style.transform]="'rotate('+degAmount+'deg)'" style="width:100%;">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div>
+  <img (click)="openMyModal()" src={{imageUrl}} alt="_blank"
+    style="height: auto; width: auto; max-width: 500px; max-height: 500px; cursor: pointer;">
+</div> -->

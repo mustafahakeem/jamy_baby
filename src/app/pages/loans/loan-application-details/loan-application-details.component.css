@@ -1,0 +1,14 @@
+.image-box {
+    float: left;
+    width: auto;
+    height: auto;
+    box-shadow: 0 4px 8px 0 grey, 0 6px 20px 0 grey;
+}
+
+.kyc-image {
+    height: auto; 
+    width: auto; 
+    max-width: 500px; 
+    max-height: 500px; 
+    cursor: pointer;
+}

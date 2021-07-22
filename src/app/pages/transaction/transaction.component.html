@@ -1,0 +1,201 @@
+<div *ngIf="(auth.isAuthenticatedAsync() | async)" class="col-md-12">
+    <div [ngBusy]="busy"></div>
+    <div [hidden]="submitted">
+        <h1>Finance Fund Relocation Form</h1>
+        <form (ngSubmit)="onProceed()" #depositForm="ngForm" #myForm="ngForm">
+
+            <div class="form-group">
+                <label for="currencyId">Currency</label>
+                <select class="form-control" id="currencyId" [(ngModel)]="command.currencyId" name="currencyId"
+                    (ngModelChange)="onTransactionTypeOrCurrencyChange()" #currencyId="ngModel" required>
+                    <option value=""> -- select an option -- </option>
+                    <option *ngFor="let currency of currencies" [value]="currency.CurrencyId">{{currency.Ccy}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="currencyId">Transaction type</label>
+                <select class="form-control" id="transactionTypeId" [(ngModel)]="command.transactionTypeId"
+                    name="transactionTypeId" (ngModelChange)="onTransactionTypeOrCurrencyChange()"
+                    #transactionTypeId="ngModel" required>
+                    <option value=""> -- select an option -- </option>
+                    <option *ngFor="let transactionType of transactionTypes"
+                        [value]="transactionType.transactionTypeId">{{transactionType.name}}</option>
+                </select>
+            </div>
+            <div *ngIf="inFetching">
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" min="0" step="0.01" class="form-control" id="amount" [(ngModel)]="command.amount"
+                (focusout)="CheckIfAmountIsPositive()"
+                    name="amount" #amount="ngModel" required [disabled]="!hasValidLookupResult">
+            </div>
+            <div [hidden]="amount.valid || amount.pristine" class="alert alert-danger">
+                Amount is required
+            </div>
+            <div [hidden]="isAmountPositive" class="alert alert-danger">
+                Amount Should be greater than zero
+            </div>
+            <div class="form-group" >
+                <label for="senderManagementWalletGuid">Sender Management Wallet</label>
+                <select class="form-control" id="senderManagementWalletGuid"
+                    [(ngModel)]="command.senderManagementWalletGuid" name="managementWalletGuid"
+                    #senderManagementWalletGuid="ngModel" required [disabled]="!hasValidLookupResult" (ngModelChange)="onManagementWalletChange()" minlength="30">
+                    <option value=""> -- select an option -- </option>
+                    <option *ngFor="let wallet of financeLookupResult.SenderWallets"
+                        [value]="wallet.ManagementWalletGuid">
+                        {{wallet.Name}}
+                    </option>
+                </select>
+            </div>
+
+            <div  class="form-group" [hidden]="!(financeLookupResult.Receiver.IsCustomerAllowed && financeLookupResult.Receiver.IsWalletAllowed)">
+                <label for="ReceiverType">Receiver Type</label>
+                <div>
+                    <label class="checkbox-inline"><input type="radio" name="optradio" [value]="'MW'"
+                            [(ngModel)]="receiverType">Management Wallet</label>
+                    <label class="checkbox-inline"><input type="radio" name="optradio" [value]="'Customer'"
+                            [(ngModel)]="receiverType">Customer</label>
+                    <label class="checkbox-inline"><input type="radio" name="optradio" [value]="'Agent'"
+                            [(ngModel)]="receiverType">Agent</label>
+                </div>
+            </div>
+
+            <div class="form-group" [hidden]="!(receiverType=='Customer' && financeLookupResult.Receiver.IsCustomerAllowed)">
+                <label for="rewardCode">Customer phone number or reward Code</label>
+                <div class="row">
+                    <div class="col col-xs-10 col-sm-10 col-md-6 col-lg-3">
+                        <input type="text" class="form-control" id="rewardCode" name="rewardCode"
+                            (focusout)="getCustomerByTransactionOrPhoneNumber($event)"
+                            [(ngModel)]="rewardCodeOrPhoneNumber" #rewardCode="ngModel" [required]="(receiverType=='Customer' && financeLookupResult.Receiver.IsCustomerAllowed)">
+                        <div [hidden]="rewardCode.valid || rewardCode.pristine" class="alert alert-danger">
+                            Reward Code is required
+                        </div>
+                        <div [hidden]="!(rewardCode.valid || rewardCode.pristine) || isRewardCodeOrPhoneNumberValid"
+                            class="alert alert-danger">
+                            Invalid Reward Code or phone number
+                        </div>
+                        <div [hidden]="!customerSearchView.CurrencyId || (customerSearchView.CurrencyId == command.currencyId)"
+                            class="alert alert-danger">
+                            Wrong currency selection, Customer Currency is different than the selected currency.
+                        </div>
+                    </div>
+                    <div class="col col-xs-2 col-sm-2 col-md-1 col-lg-1">
+                        <div *ngIf="inChecking">
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                        </div>
+                        <div
+                            *ngIf="!inChecking && (customerSearchView.CurrencyId && (customerSearchView.CurrencyId == command.currencyId))">
+                            <i class="fa fa-check-circle fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="col col-xs-12 col-sm-12 col-md-10 col-lg-8">
+                        <div class="row"
+                            *ngIf="!inChecking && rewardCode.valid && (customerSearchView.CurrencyId && (customerSearchView.CurrencyId == command.currencyId))">
+                            <div class="col col-xs-10 col-sm-10 col-md-6 col-lg-6">
+                                <label>Name : </label> <span>{{customerSearchView.Name}}</span>
+                            </div>
+                            <div class="col col-xs-10 col-sm-10 col-md-6 col-lg-6">
+                                <label>Phone : </label> <span>{{customerSearchView.PhoneNumber}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" [hidden]="!(receiverType=='Agent' && financeLookupResult.Receiver.IsCustomerAllowed)">
+                <label for="agentNumberField">Agent Number</label>
+                <div class="row">
+                    <div class="col col-xs-10 col-sm-10 col-md-6 col-lg-3">
+                        <input type="number" class="form-control" id="agentNumberField" name="agentNumberField"
+                            (focusout)="getAgentByAgentNumber($event)"
+                            [(ngModel)]="agentNumber" #agentNumberField="ngModel" [required]="(receiverType=='Agent' && financeLookupResult.Receiver.IsCustomerAllowed)">
+                        <div [hidden]="agentNumberField.valid || agentNumberField.pristine" class="alert alert-danger">
+                            Agent Number is required
+                        </div>
+                        <div [hidden]="!(agentNumberField.valid || agentNumagentNumberFieldber.pristine) || isAgentNumberValid"
+                            class="alert alert-danger">
+                            Invalid Agent number
+                        </div>
+                        <div [hidden]="!agentSearchView.CurrencyId || (agentSearchView.CurrencyId == command.currencyId)"
+                            class="alert alert-danger">
+                            Wrong currency selection, Agent Currency is different than the selected currency.
+                        </div>
+                    </div>
+                    <div class="col col-xs-2 col-sm-2 col-md-1 col-lg-1">
+                        <div *ngIf="inChecking">
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                        </div>
+                        <div
+                            *ngIf="!inChecking && (agentSearchView.CurrencyId && (agentSearchView.CurrencyId == command.currencyId))">
+                            <i class="fa fa-check-circle fa-2x"></i>
+                        </div>
+                    </div>
+                    <div class="col col-xs-12 col-sm-12 col-md-10 col-lg-8">
+                        <div class="row"
+                            *ngIf="!inChecking && (agentSearchView.CurrencyId && (agentSearchView.CurrencyId == command.currencyId))">
+                            <div class="col col-xs-10 col-sm-10 col-md-5 col-lg-5">
+                                <label>Name : </label> <span>{{agentSearchView.AgentName}}</span>
+                            </div>
+                            <div class="col col-xs-10 col-sm-10 col-md-3 col-lg-3">
+                                <label>Agent Number : </label> <span>{{agentSearchView.AgentNumber}}</span>
+                            </div>
+                            <div class="col col-xs-10 col-sm-10 col-md-4 col-lg-4">
+                                <label>Phone : </label> <span>{{agentSearchView.Phone}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" [hidden]="!(receiverType=='MW' && financeLookupResult.Receiver.IsWalletAllowed)">
+                <label for="managementWalletGuid">Receiver Management Wallet</label>
+                <select class="form-control" id="managementWalletGuid"
+                    [(ngModel)]="command.receiverManagementWalletGuid" name="managementWalletGuid"
+                    #managementWalletGuid="ngModel" required (ngModelChange)="onManagementWalletChange()">
+                    <option value=""> -- select an option -- </option>
+                    <option *ngFor="let wallet of financeLookupResult.Receiver.ReceiverManagementWallets"
+                        [value]="wallet.ManagementWalletGuid">
+                        {{wallet.Name}}
+                    </option>
+                </select>
+                <div [hidden]="!isSameManagementWallet" class="alert alert-danger">
+                    Same managmentWallet is not allowed
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message</label>
+                <input type="text" class="form-control" id="message" [(ngModel)]="command.message" name="message" [disabled]="!hasValidLookupResult">
+            </div>
+
+            <div class="form-group" [hidden]="command.transactionTypeId!=6">
+                <label for="depositDate">Deposit Date</label>
+                <div class="row">
+                    <div class="col col-xs-12 col-sm-10 col-md-6 col-lg-3">
+                        <input type="date" class="form-control" id="depositDate" [(ngModel)]="command.depositDate"
+                         name="depositDate" min="{{ minDate | date:'yyyy-MM-dd'}}"
+                            max="{{ maxDate | date:'yyyy-MM-dd'}}" >
+
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-default" [disabled]="!depositForm.form.valid || (command.receiverManagementWalletGuid==undefined && customerSearchView.CustomerGuid==undefined && agentSearchView.CustomerGuid==undefined) || command.senderManagementWalletGuid==undefined || command.senderManagementWalletGuid.length<1 || !isAmountPositive" >Register</button>
+            <div *ngIf="inFetching">
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+            </div>
+        </form>
+    </div>
+    <div>
+        <app-relocation-confirmation-modal [modalId]="modalId" [command]="command" [lookup]="confirmationData" [callBackFn]="onConfirmRelocation.bind(this)"></app-relocation-confirmation-modal>
+
+    </div>
+    <div [hidden]="!submitted || isSubmitting">
+        <h2 [hidden]="!isSuccessfull">You have submitted successfully </h2>
+        <h2 [hidden]="isSuccessfull" class="alert alert-danger">Your submission has failed </h2>
+        <br>
+        <button class="btn btn-default" (click)="submitted=false">Deposit Again</button>
+    </div>
+</div>
